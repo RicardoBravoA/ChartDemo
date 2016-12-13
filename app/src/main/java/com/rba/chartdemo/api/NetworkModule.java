@@ -1,0 +1,99 @@
+package com.rba.chartdemo.api;
+
+import com.rba.chartdemo.BuildConfig;
+import com.rba.chartdemo.salestore.SaleStoreYearInteractor;
+import com.rba.chartdemo.service.year.YearInteractor;
+
+import java.util.concurrent.TimeUnit;
+
+import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.Provides;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
+
+/**
+ * Created by ricardobravo on 13/12/16.
+ */
+
+@Module
+public class NetworkModule {
+
+    public NetworkModule(){}
+
+    @Provides
+    @Singleton
+    Retrofit retrofitInstance() {
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+
+        logging.setLevel(HttpLoggingInterceptor.Level.NONE);
+
+        if(BuildConfig.IS_DEBUG){
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        }
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(logging)
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .build();
+
+        return new Retrofit.Builder()
+                .baseUrl(BuildConfig.BASE_URL)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+    }
+
+    @Provides
+    @Singleton
+    public ApiService providesNetworkService(
+            Retrofit retrofit) {
+        return retrofit.create(ApiService.class);
+    }
+
+    @Provides
+    @Singleton
+    public YearInteractor year(ApiService apiService) {
+        return new YearInteractor(apiService);
+    }
+
+    @Provides
+    @Singleton
+    public SaleStoreYearInteractor saleStoreYear(ApiService apiService) {
+        return new SaleStoreYearInteractor(apiService);
+    }
+
+    /*
+    @Provides
+    @Singleton
+    public OfferJobInteractor offerJobService(AptitusService aptitusService) {
+        return new OfferJobInteractor(aptitusService);
+    }
+    */
+
+    public static Retrofit getRetrofit(){
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.NONE);
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(logging).build();
+
+        return new Retrofit.Builder()
+                .baseUrl(BuildConfig.BASE_URL)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
+
+
+}
