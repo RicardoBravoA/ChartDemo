@@ -1,0 +1,13 @@
+
+Zsquid:UselessImportCheck"1Remove this unused import 'android.app.Activity'.(‡ÊÍÆ8Šõ¢—+
+qsquid:S1450"URemove the "spYear" field and declare it as a local variable in the relevant methods.(‹Çò 8¾ÙÜĞ+
+Usquid:S1068"4Remove this unused "yearResponseList" private field.(Ûİğùÿÿÿÿ8ƒ¶¤Ñ+
+|squid:S1450"[Remove the "pchSaleStore" field and declare it as a local variable in the relevant methods.(Ş¹Åãşÿÿÿÿ8•ùÜĞ+
+jsquid:MaximumInheritanceDepth"<This class has 8 parents which is greater than 5 authorized.(’©¿ë8Šõ¢—+
+}squid:S1450"\Remove the "yearPresenter" field and declare it as a local variable in the relevant methods.(Ê²èßúÿÿÿÿ8Ó¼Ó+
+Qsquid:S1068"0Remove this unused "pchSaleStore" private field.(Ş¹Åãşÿÿÿÿ8˜‘ÚĞ+
+†squid:S1450"eRemove the "saleStoreYearPresenter" field and declare it as a local variable in the relevant methods.(‘Ÿ“öøÿÿÿÿ8ş°«Ó+
+¢squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ÎÆÎ»úÿÿÿÿ8¤¥×Ğ+
+¢squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(†ãæñÿÿÿÿÿ8ÊÔûÏ+
+Fsquid:S1068"*Remove this unused "spYear" private field.(‹Çò 8ÜÕØĞ+
+[squid:S1068":Remove this unused "saleStoreYearPresenter" private field.(‘Ÿ“öøÿÿÿÿ8ÕéİĞ+

@@ -3,4 +3,9 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="padding">5dp</dimen>
+    <dimen name="padding_spinner">10dp</dimen>
+    <dimen name="padding_spinner_0">0dp</dimen>
+    <dimen name="padding_spinner_5">5dp</dimen>
+    <dimen name="padding_grid_unit">10dp</dimen>
 </resources>

@@ -62,5 +62,10 @@ public class YearResponse {
         public void setYear_sale(int year_sale) {
             this.year_sale = year_sale;
         }
+
+        @Override
+        public String toString() {
+            return String.valueOf(year_sale);
+        }
     }
 }

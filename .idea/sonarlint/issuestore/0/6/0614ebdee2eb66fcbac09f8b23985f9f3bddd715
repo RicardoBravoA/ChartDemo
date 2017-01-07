@@ -1,0 +1,6 @@
+
+rsquid:S1450"VRemove the "rcvList" field and declare it as a local variable in the relevant methods.(‰ÔΩÚ8¢µ—Õè+
+jsquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(ÃÓä‹8ÉóõÕè+
+xsquid:S1450"\Remove the "listPresenter" field and declare it as a local variable in the relevant methods.(¸Ù√é8£ÜÅœè+
+gsquid:S1301"KReplace this "switch" statement by "if" statements to increase readability.(‰§±õ8πëó—è+
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(˘—øé8¯ëúœè+

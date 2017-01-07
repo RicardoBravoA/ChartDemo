@@ -23,23 +23,23 @@ public class YearPresenter {
         this.saleStoreYearView = saleStoreYearView;
     }
 
-    public void loadYear(int id) {
+    public void loadYear() {
         this.subscription = new CompositeSubscription();
 
         Subscription subscription = yearInteractor.getYear(new YearCallback() {
             @Override
             public void onResponse(YearResponse yearResponse) {
-                saleStoreYearView.showYear();
+                saleStoreYearView.showYear(yearResponse);
             }
 
             @Override
             public void onError(ErrorResponse errorResponse) {
-                saleStoreYearView.showErrorMessage(errorResponse.get_meta().getStatus());
+                saleStoreYearView.showErrorYear(errorResponse.get_meta().getStatus());
             }
 
             @Override
             public void onFailure(NetworkError networkError) {
-                saleStoreYearView.showErrorMessage(networkError.getMessage());
+                saleStoreYearView.showErrorYear(networkError.getMessage());
             }
         });
 

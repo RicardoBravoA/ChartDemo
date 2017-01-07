@@ -28,7 +28,7 @@ public class SaleStoreYearPresenter {
         Subscription subscription = saleStoreYearInteractor.getSaleStoreYear(id, new SaleStoreYearCallback() {
             @Override
             public void onResponse(StoreYearResponse storeYearResponse) {
-                saleStoreYearView.showYear();
+                saleStoreYearView.showStoreYear(storeYearResponse);
             }
 
             @Override

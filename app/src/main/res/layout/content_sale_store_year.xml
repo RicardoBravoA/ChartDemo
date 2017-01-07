@@ -14,7 +14,7 @@
     android:orientation="vertical"
     tools:showIn="@layout/activity_sale_store_year">
 
-    <android.support.v7.widget.AppCompatSpinner
+    <com.rba.chartdemo.util.control.spinner.CustomSpinner
         android:id="@+id/spYear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
