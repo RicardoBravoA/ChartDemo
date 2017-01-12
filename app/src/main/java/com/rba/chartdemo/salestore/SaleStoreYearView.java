@@ -19,4 +19,6 @@ public interface SaleStoreYearView {
 
     void showErrorYear(String message);
 
+
+
 }

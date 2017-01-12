@@ -107,7 +107,8 @@ public class CustomSpinner extends TextView {
         Resources resources = getResources();
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CustomSpinner);
 
-        setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
+        //setGravity(Gravity.CENTER | Gravity.START);
+        setGravity(Gravity.CENTER);
         setPadding(resources.getDimensionPixelSize(R.dimen.padding_grid_unit),
                 resources.getDimensionPixelSize(R.dimen.padding_spinner_5),
                 resources.getDimensionPixelSize(R.dimen.padding_spinner_0),

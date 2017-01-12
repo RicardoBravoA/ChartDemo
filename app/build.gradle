@@ -19,7 +19,7 @@ android {
         }
 
         debug {
-            buildConfigField "String", "BASE_URL", '"http://172.18.60.129:8888/ChartApi/v1/"'
+            buildConfigField "String", "BASE_URL", '"http://172.18.60.67:8888/ChartApi/v1/"'
 
             buildConfigField "String", "URL_STORE_YEAR", '"store/year/{id}"'
             buildConfigField "String", "URL_YEAR", '"year/"'

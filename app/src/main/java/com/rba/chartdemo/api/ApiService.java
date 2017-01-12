@@ -5,7 +5,6 @@ import com.rba.chartdemo.model.response.StoreYearResponse;
 import com.rba.chartdemo.model.response.YearResponse;
 
 import retrofit2.http.GET;
-import retrofit2.http.POST;
 import retrofit2.http.Path;
 import rx.Observable;
 
@@ -18,7 +17,7 @@ public interface ApiService {
     @GET(BuildConfig.URL_YEAR)
     Observable<YearResponse> getYear();
 
-    @POST(BuildConfig.URL_STORE_YEAR)
+    @GET(BuildConfig.URL_STORE_YEAR)
     Observable<StoreYearResponse> getStoreYear(@Path("id") int id);
 
 }
