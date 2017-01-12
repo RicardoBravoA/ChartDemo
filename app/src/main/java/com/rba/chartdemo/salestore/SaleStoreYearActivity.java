@@ -67,7 +67,7 @@ public class SaleStoreYearActivity extends BaseActivity implements SaleStoreYear
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
 
-        toolbar.setTitle(getString(R.string.title_activity_sale_store_year));
+        toolbar.setTitle(getString(R.string.sale_year));
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
