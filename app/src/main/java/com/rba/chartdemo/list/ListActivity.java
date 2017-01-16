@@ -12,6 +12,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.rba.chartdemo.R;
 import com.rba.chartdemo.model.entity.DataEntity;
+import com.rba.chartdemo.salebystoreandyear.SaleByStoreAndYearActivity;
 import com.rba.chartdemo.salestore.SaleStoreYearActivity;
 
 import java.util.ArrayList;
@@ -27,7 +28,6 @@ public class ListActivity extends AppCompatActivity implements ListView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //getMy().injectOfferJob(this);
         setContentView(R.layout.activity_list);
 
         init();
@@ -61,6 +61,9 @@ public class ListActivity extends AppCompatActivity implements ListView {
         switch (dataEntity.getId()){
             case 1:
                 startActivity(new Intent(this, SaleStoreYearActivity.class));
+                break;
+            case 2:
+                startActivity(new Intent(this, SaleByStoreAndYearActivity.class));
                 break;
             default:
                 break;

@@ -23,7 +23,11 @@
         <activity
             android:name=".salestore.SaleStoreYearActivity"
             android:label="@string/title_activity_sale_store_year"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".salebystoreandyear.SaleByStoreAndYearActivity"
+            android:label="@string/title_activity_sale_by_store_and_year"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
