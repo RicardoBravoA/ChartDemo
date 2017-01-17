@@ -1,6 +1,7 @@
 package com.rba.chartdemo.api;
 
 import com.rba.chartdemo.BuildConfig;
+import com.rba.chartdemo.model.response.SaleByStoreAndYearResponse;
 import com.rba.chartdemo.model.response.StoreYearResponse;
 import com.rba.chartdemo.model.response.YearResponse;
 
@@ -19,5 +20,8 @@ public interface ApiService {
 
     @GET(BuildConfig.URL_STORE_YEAR)
     Observable<StoreYearResponse> getStoreYear(@Path("id") int id);
+
+    @GET(BuildConfig.URL_SALE_STORE_YEAR)
+    Observable<SaleByStoreAndYearResponse> getSaleByStoreYear();
 
 }
