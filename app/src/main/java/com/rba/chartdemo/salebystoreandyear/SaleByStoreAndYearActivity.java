@@ -2,11 +2,12 @@ package com.rba.chartdemo.salebystoreandyear;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -17,21 +18,31 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.rba.chartdemo.R;
+import com.rba.chartdemo.base.BaseActivity;
+import com.rba.chartdemo.model.response.SaleByStoreAndYearResponse;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SaleByStoreAndYearActivity extends AppCompatActivity implements
+public class SaleByStoreAndYearActivity extends BaseActivity implements
         SaleByStoreAndYearView {
 
     @BindView(R.id.lchSale) LineChart lchSale;
     @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.clGeneral) CoordinatorLayout clGeneral;
+
+    private SaleByStoreAndYearPresenter saleByStoreAndYearPresenter;
+    @Inject
+    SaleByStoreAndYearInteractor saleByStoreAndYearInteractor;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getChartComponent().injectSaleByStoreAndYear(this);
         setContentView(R.layout.activity_sale_by_store_and_year);
 
         init();
@@ -56,7 +67,6 @@ public class SaleByStoreAndYearActivity extends AppCompatActivity implements
         });
 
 
-
         lchSale.setDrawGridBackground(false);
         lchSale.setTouchEnabled(true);
         lchSale.getDescription().setEnabled(false);
@@ -77,13 +87,33 @@ public class SaleByStoreAndYearActivity extends AppCompatActivity implements
 
         lchSale.animateX(750);
 
+        saleByStoreAndYearPresenter = new SaleByStoreAndYearPresenter(saleByStoreAndYearInteractor, this);
+        saleByStoreAndYearPresenter.load();
 
+    }
+
+    @Override
+    public void showErrorMessage(String message) {
+        Log.i("z- showErrorMessage", message);
+        Snackbar.make(clGeneral, message, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showData(SaleByStoreAndYearResponse saleByStoreAndYearResponse) {
 
         ArrayList<Entry> e1 = new ArrayList<Entry>();
 
+        /*
         for (int i = 0; i < 12; i++) {
             e1.add(new Entry(i, (int) (Math.random() * 65) + 40));
         }
+        */
+
+        e1.add(new Entry(1, 100));
+        e1.add(new Entry(2, 200));
+        e1.add(new Entry(3, 300));
+        e1.add(new Entry(4, 400));
+        e1.add(new Entry(5, 500));
 
         LineDataSet d1 = new LineDataSet(e1, "New DataSet , (1)");
         d1.setLineWidth(2.5f);
@@ -93,9 +123,17 @@ public class SaleByStoreAndYearActivity extends AppCompatActivity implements
 
         ArrayList<Entry> e2 = new ArrayList<Entry>();
 
+        /*
         for (int i = 0; i < 12; i++) {
             e2.add(new Entry(i, e1.get(i).getY() - 30));
         }
+        */
+
+        e2.add(new Entry(1, 300));
+        e2.add(new Entry(2, 400));
+        e2.add(new Entry(3, 500));
+        e2.add(new Entry(4, 600));
+        e2.add(new Entry(5, 700));
 
         LineDataSet d2 = new LineDataSet(e2, "New DataSet , (2)");
         d2.setLineWidth(2.5f);
@@ -114,8 +152,11 @@ public class SaleByStoreAndYearActivity extends AppCompatActivity implements
         lchSale.setData(cd);
         lchSale.invalidate();
 
+    }
 
-
+    @Override
+    public void showError(String message) {
+        Snackbar.make(clGeneral, message, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override

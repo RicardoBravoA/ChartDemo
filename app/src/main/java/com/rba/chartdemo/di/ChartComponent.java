@@ -1,6 +1,7 @@
 package com.rba.chartdemo.di;
 
 import com.rba.chartdemo.api.NetworkModule;
+import com.rba.chartdemo.salebystoreandyear.SaleByStoreAndYearActivity;
 import com.rba.chartdemo.salestore.SaleStoreYearActivity;
 
 import javax.inject.Singleton;
@@ -16,5 +17,6 @@ import dagger.Component;
 public interface ChartComponent {
 
     void injectSaleStoreYear(SaleStoreYearActivity saleStoreYearActivity);
+    void injectSaleByStoreAndYear(SaleByStoreAndYearActivity saleByStoreAndYearActivity);
 
 }

@@ -3,10 +3,6 @@ package com.rba.chartdemo.salebystoreandyear;
 import com.rba.chartdemo.api.NetworkError;
 import com.rba.chartdemo.model.response.ErrorResponse;
 import com.rba.chartdemo.model.response.SaleByStoreAndYearResponse;
-import com.rba.chartdemo.model.response.StoreYearResponse;
-import com.rba.chartdemo.salestore.SaleStoreYearCallback;
-import com.rba.chartdemo.salestore.SaleStoreYearInteractor;
-import com.rba.chartdemo.salestore.SaleStoreYearView;
 
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -27,7 +23,7 @@ public class SaleByStoreAndYearPresenter {
         this.saleByStoreAndYearView = saleByStoreAndYearView;
     }
 
-    public void load(int id) {
+    public void load() {
         this.subscription = new CompositeSubscription();
 
         Subscription subscription = saleByStoreAndYearInteractor.getSaleStoreYear(new SaleByStoreAndYearCallback() {
