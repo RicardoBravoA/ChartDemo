@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -15,11 +16,12 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.gson.Gson;
 import com.rba.chartdemo.R;
 import com.rba.chartdemo.base.BaseActivity;
 import com.rba.chartdemo.model.response.SaleByStoreAndYearResponse;
+import com.rba.chartdemo.util.mpchart.MyValueFormatter;
 
 import java.util.ArrayList;
 
@@ -71,19 +73,38 @@ public class SaleByStoreAndYearActivity extends BaseActivity implements
         lchSale.setTouchEnabled(true);
         lchSale.getDescription().setEnabled(false);
 
+        lchSale.setDragDecelerationFrictionCoef(0.9f);
+
+        // enable scaling and dragging
+        lchSale.setDragEnabled(false);
+        lchSale.setScaleEnabled(false);
+        lchSale.setDrawGridBackground(false);
+        lchSale.setHighlightPerDragEnabled(true);
+
         XAxis xAxis = lchSale.getXAxis();
+        xAxis.setCenterAxisLabels(true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextColor(Color.RED);
         xAxis.setDrawGridLines(false);
+        xAxis.setValueFormatter(new MyValueFormatter());
         xAxis.setDrawAxisLine(true);
 
+
+        /*
         YAxis leftAxis = lchSale.getAxisLeft();
-        leftAxis.setLabelCount(5, false);
+        leftAxis.setTextColor(ColorTemplate.getHoloBlue());
+        leftAxis.setAxisMaximum(200f);
         leftAxis.setAxisMinimum(0f);
+        leftAxis.setDrawGridLines(true);
+        leftAxis.setGranularityEnabled(true);
 
         YAxis rightAxis = lchSale.getAxisRight();
-        rightAxis.setLabelCount(5, false);
+        rightAxis.setTextColor(Color.RED);
         rightAxis.setDrawGridLines(false);
-        rightAxis.setAxisMinimum(0f);
+        rightAxis.setDrawZeroLine(false);
+        rightAxis.setGranularityEnabled(false);
+        */
+
 
         lchSale.animateX(750);
 
@@ -101,6 +122,8 @@ public class SaleByStoreAndYearActivity extends BaseActivity implements
     @Override
     public void showData(SaleByStoreAndYearResponse saleByStoreAndYearResponse) {
 
+        Log.i("z- showData", new Gson().toJson(saleByStoreAndYearResponse));
+
         ArrayList<Entry> e1 = new ArrayList<Entry>();
 
         /*
@@ -115,11 +138,19 @@ public class SaleByStoreAndYearActivity extends BaseActivity implements
         e1.add(new Entry(4, 400));
         e1.add(new Entry(5, 500));
 
+
+        ArrayList<String> labels = new ArrayList<>();
+        labels.add("2013");
+        labels.add("2014");
+        labels.add("2015");
+        labels.add("2016");
+
         LineDataSet d1 = new LineDataSet(e1, "New DataSet , (1)");
         d1.setLineWidth(2.5f);
-        d1.setCircleRadius(4.5f);
+        //d1.setValueFormatter(new MyValueFormatter());
         d1.setHighLightColor(Color.rgb(244, 117, 117));
-        d1.setDrawValues(false);
+        d1.setDrawValues(true);
+
 
         ArrayList<Entry> e2 = new ArrayList<Entry>();
 
@@ -137,19 +168,15 @@ public class SaleByStoreAndYearActivity extends BaseActivity implements
 
         LineDataSet d2 = new LineDataSet(e2, "New DataSet , (2)");
         d2.setLineWidth(2.5f);
-        d2.setCircleRadius(4.5f);
+        //d2.setValueFormatter(new MyValueFormatter());
         d2.setHighLightColor(Color.rgb(244, 117, 117));
         d2.setColor(ColorTemplate.VORDIPLOM_COLORS[0]);
         d2.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0]);
         d2.setDrawValues(false);
 
-        ArrayList<ILineDataSet> sets = new ArrayList<ILineDataSet>();
-        sets.add(d1);
-        sets.add(d2);
-
-        LineData cd = new LineData(sets);
-
-        lchSale.setData(cd);
+        LineData lineData = new LineData(d1, d2);
+        //lineData.setValueFormatter(new MyValueFormatter());
+        lchSale.setData(lineData);
         lchSale.invalidate();
 
     }
