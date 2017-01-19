@@ -40,8 +40,7 @@ import butterknife.ButterKnife;
  */
 
 public class ChartFragment extends BaseFragment implements SaleStoreYearView,
-        AdapterView.OnItemSelectedListener
-        {
+        AdapterView.OnItemSelectedListener {
 
     private SaleStoreYearPresenter saleStoreYearPresenter;
     private YearPresenter yearPresenter;
