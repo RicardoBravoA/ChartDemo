@@ -83,7 +83,7 @@ public class StoreSaleChartFragment extends BaseFragment implements StoreSaleVie
 
         storeSalePresenter = new StoreSalePresenter(storeSaleInteractor, this);
         storePresenter = new StorePresenter(storeInteractor, this);
-        storePresenter.loadYear();
+        storePresenter.loadStore();
 
 
         pchStoreSale.setUsePercentValues(false);

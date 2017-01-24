@@ -61,7 +61,7 @@ public class StoreSaleActivity extends BaseActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new StoreSaleChartFragment(), "Chart");
-        adapter.addFragment(new LineFragment(), "Line");
+        adapter.addFragment(new StoreSaleLineFragment(), "Line");
         viewPager.setAdapter(adapter);
     }
 

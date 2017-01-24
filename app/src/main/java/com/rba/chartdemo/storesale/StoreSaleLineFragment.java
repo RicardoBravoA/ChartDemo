@@ -22,13 +22,10 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
 import com.rba.chartdemo.R;
 import com.rba.chartdemo.base.BaseFragment;
+import com.rba.chartdemo.model.response.StoreResponse;
 import com.rba.chartdemo.model.response.StoreYearResponse;
-import com.rba.chartdemo.model.response.YearResponse;
-import com.rba.chartdemo.salestore.SaleStoreYearInteractor;
-import com.rba.chartdemo.salestore.SaleStoreYearPresenter;
-import com.rba.chartdemo.salestore.SaleStoreYearView;
-import com.rba.chartdemo.service.year.YearInteractor;
-import com.rba.chartdemo.service.year.YearPresenter;
+import com.rba.chartdemo.service.store.StoreInteractor;
+import com.rba.chartdemo.service.store.StorePresenter;
 import com.rba.chartdemo.util.control.spinner.CustomSpinner;
 
 import java.util.ArrayList;
@@ -42,23 +39,20 @@ import butterknife.ButterKnife;
  * Created by Ricardo Bravo on 24/01/17.
  */
 
-public class StoreSaleLineFragment extends BaseFragment implements SaleStoreYearView,
+public class StoreSaleLineFragment extends BaseFragment implements StoreSaleView,
         AdapterView.OnItemSelectedListener {
 
-    private SaleStoreYearPresenter saleStoreYearPresenter;
-    private YearPresenter yearPresenter;
+    private StoreSalePresenter storeSalePresenter;
+    private StorePresenter storePresenter;
     @Inject
-    SaleStoreYearInteractor saleStoreYearInteractor;
+    StoreSaleInteractor storeSaleInteractor;
     @Inject
-    YearInteractor yearInteractor;
-    private YearResponse yearResponse;
+    StoreInteractor storeInteractor;
+    private StoreResponse storeResponse;
 
-    @BindView(R.id.linGeneral)
-    LinearLayout linGeneral;
-    @BindView(R.id.spYear)
-    CustomSpinner spYear;
-    @BindView(R.id.lchSale)
-    LineChart lchSale;
+    @BindView(R.id.linGeneral) LinearLayout linGeneral;
+    @BindView(R.id.spStore) CustomSpinner spStore;
+    @BindView(R.id.lchSale) LineChart lchSale;
 
     public StoreSaleLineFragment() {
     }
@@ -71,6 +65,7 @@ public class StoreSaleLineFragment extends BaseFragment implements SaleStoreYear
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getChartComponent().injectStoreSale(this);
         View view =  inflater.inflate(R.layout.fragment_store_sale_line, container, false);
         ButterKnife.bind(this, view);
         return view;
@@ -84,10 +79,10 @@ public class StoreSaleLineFragment extends BaseFragment implements SaleStoreYear
 
     @Override
     public void init() {
-        spYear.setOnItemSelectedListener(this);
-        saleStoreYearPresenter = new SaleStoreYearPresenter(saleStoreYearInteractor, this);
-        yearPresenter = new YearPresenter(yearInteractor, this);
-        yearPresenter.loadYear();
+        spStore.setOnItemSelectedListener(this);
+        storeSalePresenter = new StoreSalePresenter(storeSaleInteractor, this);
+        storePresenter = new StorePresenter(storeInteractor, this);
+        storePresenter.loadStore();
 
 
         lchSale.getDescription().setEnabled(false);
@@ -111,18 +106,18 @@ public class StoreSaleLineFragment extends BaseFragment implements SaleStoreYear
     }
 
     @Override
-    public void showYear(YearResponse yearResponse) {
-        Log.i("z- showYear", new Gson().toJson(yearResponse));
-        this.yearResponse = yearResponse;
+    public void showStore(StoreResponse storeResponse) {
+        Log.i("z- showYear", new Gson().toJson(storeResponse));
+        this.storeResponse = storeResponse;
 
-        spYear.setDataSource(yearResponse.getData());
+        spStore.setDataSource(storeResponse.getData());
 
-        saleStoreYearPresenter.load(
-                yearResponse.getData().get(spYear.getSelectedIndex()).getYear_sale());
+        storeSalePresenter.load(
+                storeResponse.getData().get(spStore.getSelectedIndex()).getStore_id());
     }
 
     @Override
-    public void showErrorYear(String message) {
+    public void showErrorStore(String message) {
         Log.i("z- showErrorYear", message);
     }
 
@@ -139,11 +134,8 @@ public class StoreSaleLineFragment extends BaseFragment implements SaleStoreYear
 
         ArrayList<Entry> values = new ArrayList<Entry>();
 
-
-        //StoreYearResponse.DataBean dataBean =
-
-        for (int i = 0; i < 20; i++) {
-            values.add(new Entry(i, (int) (Math.random() * 65) + 40));
+        for(StoreYearResponse.DataBean dataBean : storeYearResponse.getData()){
+            values.add(new Entry(dataBean.getYear_sale(), Float.parseFloat(dataBean.getAmount())));
         }
 
         LineDataSet lineDataSet = new LineDataSet(values, "New DataSet (2)");
@@ -168,9 +160,9 @@ public class StoreSaleLineFragment extends BaseFragment implements SaleStoreYear
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        Log.i("z- onItemSelected", String.valueOf(yearResponse.getData().get(i).getYear_sale()));
+        Log.i("z- onItemSelected", String.valueOf(storeResponse.getData().get(i).getStore_id()));
 
-        saleStoreYearPresenter.load(yearResponse.getData().get(i).getYear_sale());
+        storeSalePresenter.load(storeResponse.getData().get(i).getStore_id());
 
     }
 

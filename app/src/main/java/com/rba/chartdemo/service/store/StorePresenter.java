@@ -23,7 +23,7 @@ public class StorePresenter {
         this.storeSaleView = storeSaleView;
     }
 
-    public void loadYear() {
+    public void loadStore() {
         this.subscription = new CompositeSubscription();
 
         Subscription subscription = storeInteractor.getStore(new StoreCallback() {
