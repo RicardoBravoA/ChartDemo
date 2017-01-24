@@ -140,13 +140,10 @@ public class StoreSaleLineFragment extends BaseFragment implements StoreSaleView
         ArrayList<Entry> values = new ArrayList<Entry>();
 
         for(StoreYearResponse.DataBean dataBean : storeYearResponse.getData()){
-            values.add(new Entry(dataBean.getYear_sale(), Float.parseFloat(dataBean.getAmount()),
-                    //String.valueOf(dataBean.getYear_sale()+"\n"+dataBean.getAmount())
-                    String.valueOf("hola")
-            ));
+            values.add(new Entry(dataBean.getYear_sale(), Float.parseFloat(dataBean.getAmount())));
         }
 
-        LineDataSet lineDataSet = new LineDataSet(values, "New DataSet (2)");
+        LineDataSet lineDataSet = new LineDataSet(values, "Ventas "+storeResponse.getData().get(spStore.getSelectedIndex()).getStore_description());
         lineDataSet.setLineWidth(2.5f);
         lineDataSet.setCircleRadius(4.5f);
         lineDataSet.setHighLightColor(Color.rgb(244, 117, 117));

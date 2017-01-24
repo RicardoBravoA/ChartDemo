@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +12,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
 import com.rba.chartdemo.R;
@@ -39,7 +39,7 @@ import butterknife.ButterKnife;
  * Created by Ricardo Bravo on 18/01/17.
  */
 
-public class LineFragment extends BaseFragment implements SaleStoreYearView,
+public class SaleStoreChartFragment extends BaseFragment implements SaleStoreYearView,
         AdapterView.OnItemSelectedListener {
 
     private SaleStoreYearPresenter saleStoreYearPresenter;
@@ -50,9 +50,9 @@ public class LineFragment extends BaseFragment implements SaleStoreYearView,
 
     @BindView(R.id.linGeneral) LinearLayout linGeneral;
     @BindView(R.id.spYear) CustomSpinner spYear;
-    @BindView(R.id.lchSale) LineChart lchSale;
+    @BindView(R.id.pchSaleStore) PieChart pchSaleStore;
 
-    public LineFragment() {
+    public SaleStoreChartFragment() {
     }
 
     @Override
@@ -64,7 +64,7 @@ public class LineFragment extends BaseFragment implements SaleStoreYearView,
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         getChartComponent().injectSaleStoreYear(this);
-        View view =  inflater.inflate(R.layout.fragment_line, container, false);
+        View view = inflater.inflate(R.layout.fragment_chart, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -83,23 +83,26 @@ public class LineFragment extends BaseFragment implements SaleStoreYearView,
         yearPresenter.loadYear();
 
 
-        lchSale.getDescription().setEnabled(false);
-        lchSale.setDrawGridBackground(false);
+        pchSaleStore.setUsePercentValues(false);
+        pchSaleStore.getDescription().setEnabled(false);
+        pchSaleStore.setExtraOffsets(5, 10, 5, 5);
 
-        XAxis xAxis = lchSale.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setDrawGridLines(false);
-        xAxis.setDrawAxisLine(true);
+        pchSaleStore.setDragDecelerationFrictionCoef(0.95f);
 
-        YAxis leftAxis = lchSale.getAxisLeft();
-        leftAxis.setLabelCount(5, false);
-        leftAxis.setAxisMinimum(0f);
+        pchSaleStore.setDrawHoleEnabled(true);
+        pchSaleStore.setHoleColor(Color.WHITE);
 
-        YAxis rightAxis = lchSale.getAxisRight();
-        rightAxis.setLabelCount(5, false);
-        rightAxis.setDrawGridLines(false);
-        rightAxis.setAxisMinimum(0f);
+        pchSaleStore.setTransparentCircleColor(Color.WHITE);
+        pchSaleStore.setTransparentCircleAlpha(110);
 
+        pchSaleStore.setHoleRadius(40f);
+        pchSaleStore.setTransparentCircleRadius(45f);
+
+        pchSaleStore.setDrawCenterText(true);
+
+        pchSaleStore.setRotationAngle(0);
+        pchSaleStore.setRotationEnabled(true);
+        pchSaleStore.setHighlightPerTapEnabled(true);
 
     }
 
@@ -130,32 +133,31 @@ public class LineFragment extends BaseFragment implements SaleStoreYearView,
 
         Log.i("z- showStoreYear", new Gson().toJson(storeYearResponse));
 
-        ArrayList<Entry> values = new ArrayList<Entry>();
+        ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 
-
-        //StoreYearResponse.DataBean dataBean =
-
-        for (int i = 0; i < 20; i++) {
-            values.add(new Entry(i, (int) (Math.random() * 65) + 40));
+        for(StoreYearResponse.DataBean dataBean : storeYearResponse.getData()){
+            entries.add(new PieEntry(Float.parseFloat(dataBean.getAmount()),
+                    dataBean.getStore_description()));
         }
 
-        LineDataSet lineDataSet = new LineDataSet(values, "New DataSet (2)");
-        lineDataSet.setLineWidth(2.5f);
-        lineDataSet.setCircleRadius(4.5f);
-        lineDataSet.setHighLightColor(Color.rgb(244, 117, 117));
-        lineDataSet.setColor(ColorTemplate.VORDIPLOM_COLORS[0]);
-        lineDataSet.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0]);
-        lineDataSet.setDrawValues(false);
+        PieDataSet dataSet = new PieDataSet(entries, "");
+        dataSet.setSliceSpace(3f);
+        dataSet.setSelectionShift(5f);
 
-        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-        dataSets.add(lineDataSet); // add the datasets
+        dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
 
-        // create a data object with the datasets
-        LineData data = new LineData(dataSets);
+        PieData data = new PieData(dataSet);
+        data.setValueFormatter(new PercentFormatter());
+        data.setValueTextSize(11f);
+        data.setValueTextColor(Color.WHITE);
+        pchSaleStore.setData(data);
 
-        // set data
-        lchSale.setData(data);
-        lchSale.animateX(750);
+        pchSaleStore.animateY(1400, Easing.EasingOption.EaseInOutQuad);
+
+        pchSaleStore.setEntryLabelColor(ContextCompat.getColor(getActivity(), R.color.plumb));
+        pchSaleStore.setEntryLabelTextSize(12f);
+
+        pchSaleStore.invalidate();
 
     }
 

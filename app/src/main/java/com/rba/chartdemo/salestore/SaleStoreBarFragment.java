@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +11,18 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
-import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
 import com.rba.chartdemo.R;
@@ -39,7 +44,7 @@ import butterknife.ButterKnife;
  * Created by Ricardo Bravo on 18/01/17.
  */
 
-public class ChartFragment extends BaseFragment implements SaleStoreYearView,
+public class SaleStoreBarFragment extends BaseFragment implements SaleStoreYearView,
         AdapterView.OnItemSelectedListener {
 
     private SaleStoreYearPresenter saleStoreYearPresenter;
@@ -50,9 +55,9 @@ public class ChartFragment extends BaseFragment implements SaleStoreYearView,
 
     @BindView(R.id.linGeneral) LinearLayout linGeneral;
     @BindView(R.id.spYear) CustomSpinner spYear;
-    @BindView(R.id.pchSaleStore) PieChart pchSaleStore;
+    @BindView(R.id.bchSale) BarChart bchSale;
 
-    public ChartFragment() {
+    public SaleStoreBarFragment() {
     }
 
     @Override
@@ -64,7 +69,7 @@ public class ChartFragment extends BaseFragment implements SaleStoreYearView,
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         getChartComponent().injectSaleStoreYear(this);
-        View view = inflater.inflate(R.layout.fragment_chart, container, false);
+        View view =  inflater.inflate(R.layout.fragment_sale_store_bar_chart, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -83,26 +88,23 @@ public class ChartFragment extends BaseFragment implements SaleStoreYearView,
         yearPresenter.loadYear();
 
 
-        pchSaleStore.setUsePercentValues(false);
-        pchSaleStore.getDescription().setEnabled(false);
-        pchSaleStore.setExtraOffsets(5, 10, 5, 5);
+        bchSale.getDescription().setEnabled(false);
+        bchSale.setDrawGridBackground(false);
 
-        pchSaleStore.setDragDecelerationFrictionCoef(0.95f);
+        XAxis xAxis = bchSale.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setDrawAxisLine(true);
 
-        pchSaleStore.setDrawHoleEnabled(true);
-        pchSaleStore.setHoleColor(Color.WHITE);
+        YAxis leftAxis = bchSale.getAxisLeft();
+        leftAxis.setLabelCount(5, false);
+        leftAxis.setAxisMinimum(0f);
 
-        pchSaleStore.setTransparentCircleColor(Color.WHITE);
-        pchSaleStore.setTransparentCircleAlpha(110);
+        YAxis rightAxis = bchSale.getAxisRight();
+        rightAxis.setLabelCount(5, false);
+        rightAxis.setDrawGridLines(false);
+        rightAxis.setAxisMinimum(0f);
 
-        pchSaleStore.setHoleRadius(40f);
-        pchSaleStore.setTransparentCircleRadius(45f);
-
-        pchSaleStore.setDrawCenterText(true);
-
-        pchSaleStore.setRotationAngle(0);
-        pchSaleStore.setRotationEnabled(true);
-        pchSaleStore.setHighlightPerTapEnabled(true);
 
     }
 
@@ -133,31 +135,68 @@ public class ChartFragment extends BaseFragment implements SaleStoreYearView,
 
         Log.i("z- showStoreYear", new Gson().toJson(storeYearResponse));
 
-        ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
+        /*
+        ArrayList<Entry> values = new ArrayList<Entry>();
 
-        for(StoreYearResponse.DataBean dataBean : storeYearResponse.getData()){
-            entries.add(new PieEntry(Float.parseFloat(dataBean.getAmount()),
-                    dataBean.getStore_description()));
+
+        //StoreYearResponse.DataBean dataBean =
+
+        for (int i = 0; i < 20; i++) {
+            values.add(new Entry(i, (int) (Math.random() * 65) + 40));
         }
 
-        PieDataSet dataSet = new PieDataSet(entries, "");
-        dataSet.setSliceSpace(3f);
-        dataSet.setSelectionShift(5f);
+        LineDataSet lineDataSet = new LineDataSet(values, "New DataSet (2)");
+        lineDataSet.setLineWidth(2.5f);
+        lineDataSet.setCircleRadius(4.5f);
+        lineDataSet.setHighLightColor(Color.rgb(244, 117, 117));
+        lineDataSet.setColor(ColorTemplate.VORDIPLOM_COLORS[0]);
+        lineDataSet.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0]);
+        lineDataSet.setDrawValues(false);
 
-        dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        dataSets.add(lineDataSet); // add the datasets
 
-        PieData data = new PieData(dataSet);
-        data.setValueFormatter(new PercentFormatter());
-        data.setValueTextSize(11f);
-        data.setValueTextColor(Color.WHITE);
-        pchSaleStore.setData(data);
+        // create a data object with the datasets
+        LineData data = new LineData(dataSets);
 
-        pchSaleStore.animateY(1400, Easing.EasingOption.EaseInOutQuad);
+        // set data
+        bchSale.setData(data);
+        bchSale.animateX(750);
+        */
 
-        pchSaleStore.setEntryLabelColor(ContextCompat.getColor(getActivity(), R.color.plumb));
-        pchSaleStore.setEntryLabelTextSize(12f);
+        float start = 1f;
 
-        pchSaleStore.invalidate();
+        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+
+        for (int i = (int) start; i < start + 5 + 1; i++) {
+            float mult = (10 + 1);
+            float val = (float) (Math.random() * mult);
+            yVals1.add(new BarEntry(i, val));
+        }
+
+        BarDataSet set1;
+
+        if (bchSale.getData() != null &&
+                bchSale.getData().getDataSetCount() > 0) {
+            set1 = (BarDataSet) bchSale.getData().getDataSetByIndex(0);
+            set1.setValues(yVals1);
+            bchSale.getData().notifyDataChanged();
+            bchSale.notifyDataSetChanged();
+        } else {
+            set1 = new BarDataSet(yVals1, "The year 2017");
+            set1.setColors(ColorTemplate.MATERIAL_COLORS);
+
+            ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
+            dataSets.add(set1);
+
+            BarData data = new BarData(dataSets);
+            data.setValueTextSize(10f);
+            data.setBarWidth(0.9f);
+
+            bchSale.setData(data);
+        }
+
+
 
     }
 

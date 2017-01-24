@@ -12,8 +12,6 @@ import android.view.View;
 
 import com.rba.chartdemo.R;
 import com.rba.chartdemo.base.BaseActivity;
-import com.rba.chartdemo.salestore.ChartFragment;
-import com.rba.chartdemo.salestore.LineFragment;
 
 import java.util.ArrayList;
 import java.util.List;

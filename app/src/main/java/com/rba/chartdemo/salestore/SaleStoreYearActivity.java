@@ -54,8 +54,8 @@ public class SaleStoreYearActivity extends BaseActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new ChartFragment(), "Chart");
-        adapter.addFragment(new LineFragment(), "Line");
+        adapter.addFragment(new SaleStoreChartFragment(), "Chart");
+        adapter.addFragment(new SaleStoreBarFragment(), "Bar Chart");
         viewPager.setAdapter(adapter);
     }
 

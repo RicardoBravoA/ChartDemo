@@ -2,9 +2,8 @@ package com.rba.chartdemo.di;
 
 import com.rba.chartdemo.api.NetworkModule;
 import com.rba.chartdemo.salebystoreandyear.SaleByStoreAndYearActivity;
-import com.rba.chartdemo.salestore.ChartFragment;
-import com.rba.chartdemo.salestore.LineFragment;
-import com.rba.chartdemo.salestore.SaleStoreYearActivity;
+import com.rba.chartdemo.salestore.SaleStoreChartFragment;
+import com.rba.chartdemo.salestore.SaleStoreBarFragment;
 import com.rba.chartdemo.storesale.StoreSaleChartFragment;
 import com.rba.chartdemo.storesale.StoreSaleLineFragment;
 
@@ -20,8 +19,8 @@ import dagger.Component;
 @Component(modules = NetworkModule.class)
 public interface ChartComponent {
 
-    void injectSaleStoreYear(ChartFragment chartFragment);
-    void injectSaleStoreYear(LineFragment lineFragment);
+    void injectSaleStoreYear(SaleStoreChartFragment saleStoreChartFragment);
+    void injectSaleStoreYear(SaleStoreBarFragment saleStoreBarFragment);
 
     void injectStoreSale(StoreSaleChartFragment storeSaleChartFragment);
     void injectStoreSale(StoreSaleLineFragment storeSaleLineFragment);
