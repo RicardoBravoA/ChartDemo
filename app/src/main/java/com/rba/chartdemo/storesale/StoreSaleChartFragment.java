@@ -27,6 +27,8 @@ import com.rba.chartdemo.model.response.StoreYearResponse;
 import com.rba.chartdemo.model.response.YearResponse;
 import com.rba.chartdemo.salestore.SaleStoreYearInteractor;
 import com.rba.chartdemo.salestore.SaleStoreYearPresenter;
+import com.rba.chartdemo.service.store.StoreInteractor;
+import com.rba.chartdemo.service.store.StorePresenter;
 import com.rba.chartdemo.service.year.YearInteractor;
 import com.rba.chartdemo.service.year.YearPresenter;
 import com.rba.chartdemo.util.control.spinner.CustomSpinner;
@@ -46,15 +48,15 @@ public class StoreSaleChartFragment extends BaseFragment implements StoreSaleVie
         AdapterView.OnItemSelectedListener {
 
     private SaleStoreYearPresenter saleStoreYearPresenter;
-    private YearPresenter yearPresenter;
+    private StorePresenter storePresenter;
     @Inject
     SaleStoreYearInteractor saleStoreYearInteractor;
     @Inject
-    YearInteractor yearInteractor;
-    private YearResponse yearResponse;
+    StoreInteractor storeInteractor;
+    private StoreResponse storeResponse;
 
     @BindView(R.id.linGeneral) LinearLayout linGeneral;
-    @BindView(R.id.spYear) CustomSpinner spYear;
+    @BindView(R.id.spStore) CustomSpinner spStore;
     @BindView(R.id.pchSaleStore) PieChart pchSaleStore;
 
     public StoreSaleChartFragment() {
@@ -81,7 +83,7 @@ public class StoreSaleChartFragment extends BaseFragment implements StoreSaleVie
 
     @Override
     public void init() {
-        spYear.setOnItemSelectedListener(this);
+        spStore.setOnItemSelectedListener(this);
         saleStoreYearPresenter = new SaleStoreYearPresenter(saleStoreYearInteractor, this);
         yearPresenter = new YearPresenter(yearInteractor, this);
         yearPresenter.loadYear();
