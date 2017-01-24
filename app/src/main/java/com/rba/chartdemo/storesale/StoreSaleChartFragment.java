@@ -136,11 +136,11 @@ public class StoreSaleChartFragment extends BaseFragment implements StoreSaleVie
 
         Log.i("z- showStoreYear", new Gson().toJson(storeYearResponse));
 
-        ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
+        ArrayList<PieEntry> entries = new ArrayList<>();
 
         for(StoreYearResponse.DataBean dataBean : storeYearResponse.getData()){
             entries.add(new PieEntry(Float.parseFloat(dataBean.getAmount()),
-                    dataBean.getStore_description()));
+                    String.valueOf(dataBean.getYear_sale())));
         }
 
         PieDataSet dataSet = new PieDataSet(entries, "");
