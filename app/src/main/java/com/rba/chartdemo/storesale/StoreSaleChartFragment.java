@@ -22,11 +22,11 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
 import com.rba.chartdemo.R;
 import com.rba.chartdemo.base.BaseFragment;
+import com.rba.chartdemo.model.response.StoreResponse;
 import com.rba.chartdemo.model.response.StoreYearResponse;
 import com.rba.chartdemo.model.response.YearResponse;
 import com.rba.chartdemo.salestore.SaleStoreYearInteractor;
 import com.rba.chartdemo.salestore.SaleStoreYearPresenter;
-import com.rba.chartdemo.salestore.SaleStoreYearView;
 import com.rba.chartdemo.service.year.YearInteractor;
 import com.rba.chartdemo.service.year.YearPresenter;
 import com.rba.chartdemo.util.control.spinner.CustomSpinner;
@@ -42,7 +42,7 @@ import butterknife.ButterKnife;
  * Created by Ricardo Bravo on 24/01/17.
  */
 
-public class StoreSaleChartFragment extends BaseFragment implements SaleStoreYearView,
+public class StoreSaleChartFragment extends BaseFragment implements StoreSaleView,
         AdapterView.OnItemSelectedListener {
 
     private SaleStoreYearPresenter saleStoreYearPresenter;
@@ -111,7 +111,7 @@ public class StoreSaleChartFragment extends BaseFragment implements SaleStoreYea
     }
 
     @Override
-    public void showYear(YearResponse yearResponse) {
+    public void showStore(StoreResponse storeResponse) {
         Log.i("z- showYear", new Gson().toJson(yearResponse));
         this.yearResponse = yearResponse;
 
@@ -122,8 +122,8 @@ public class StoreSaleChartFragment extends BaseFragment implements SaleStoreYea
     }
 
     @Override
-    public void showErrorYear(String message) {
-        Log.i("z- showErrorYear", message);
+    public void showErrorStore(String message) {
+        Log.i("z- showErrorStore", message);
     }
 
     @Override

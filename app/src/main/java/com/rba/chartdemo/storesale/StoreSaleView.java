@@ -17,7 +17,7 @@ public interface StoreSaleView {
 
     void showStore(StoreResponse storeResponse);
 
-    void showErrorYear(String message);
+    void showErrorStore(String message);
 
 
 }
