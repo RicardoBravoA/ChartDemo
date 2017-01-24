@@ -12,13 +12,12 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
 import com.rba.chartdemo.R;
@@ -85,59 +84,22 @@ public class LineFragment extends BaseFragment implements SaleStoreYearView,
 
 
         lchSale.getDescription().setEnabled(false);
-
-        // enable touch gestures
-        lchSale.setTouchEnabled(true);
-
-        lchSale.setDragDecelerationFrictionCoef(0.9f);
-
-        // enable scaling and dragging
-        lchSale.setDragEnabled(true);
-        lchSale.setScaleEnabled(true);
         lchSale.setDrawGridBackground(false);
-        lchSale.setHighlightPerDragEnabled(true);
-
-        // if disabled, scaling can be done on x- and y-axis separately
-        lchSale.setPinchZoom(true);
-
-        // set an alternative background color
-        lchSale.setBackgroundColor(Color.LTGRAY);
-
-        lchSale.animateX(2500);
-
-        // get the legend (only possible after setting data)
-        Legend l = lchSale.getLegend();
-
-        // modify the legend ...
-        l.setForm(Legend.LegendForm.LINE);
-        l.setTextSize(11f);
-        l.setTextColor(Color.WHITE);
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
-        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        l.setDrawInside(false);
-//        l.setYOffset(11f);
 
         XAxis xAxis = lchSale.getXAxis();
-        xAxis.setTextSize(11f);
-        xAxis.setTextColor(Color.WHITE);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
-        xAxis.setDrawAxisLine(false);
+        xAxis.setDrawAxisLine(true);
 
         YAxis leftAxis = lchSale.getAxisLeft();
-        leftAxis.setTextColor(ColorTemplate.getHoloBlue());
-        leftAxis.setAxisMaximum(200f);
+        leftAxis.setLabelCount(5, false);
         leftAxis.setAxisMinimum(0f);
-        leftAxis.setDrawGridLines(true);
-        leftAxis.setGranularityEnabled(true);
 
         YAxis rightAxis = lchSale.getAxisRight();
-        rightAxis.setTextColor(Color.RED);
-        rightAxis.setAxisMaximum(900);
-        rightAxis.setAxisMinimum(-200);
+        rightAxis.setLabelCount(5, false);
         rightAxis.setDrawGridLines(false);
-        rightAxis.setDrawZeroLine(false);
-        rightAxis.setGranularityEnabled(false);
+        rightAxis.setAxisMinimum(0f);
+
 
     }
 
@@ -168,30 +130,32 @@ public class LineFragment extends BaseFragment implements SaleStoreYearView,
 
         Log.i("z- showStoreYear", new Gson().toJson(storeYearResponse));
 
-        ArrayList<Entry> entries = new ArrayList<>();
+        ArrayList<Entry> values = new ArrayList<Entry>();
 
 
-        for(StoreYearResponse.DataBean dataBean: storeYearResponse.getData()){
-            entries.add(new Entry(dataBean.getStore_id(), Float.parseFloat(dataBean.getAmount())));
+        //StoreYearResponse.DataBean dataBean =
+
+        for (int i = 0; i < 20; i++) {
+            values.add(new Entry(i, (int) (Math.random() * 65) + 40));
         }
 
+        LineDataSet lineDataSet = new LineDataSet(values, "New DataSet (2)");
+        lineDataSet.setLineWidth(2.5f);
+        lineDataSet.setCircleRadius(4.5f);
+        lineDataSet.setHighLightColor(Color.rgb(244, 117, 117));
+        lineDataSet.setColor(ColorTemplate.VORDIPLOM_COLORS[0]);
+        lineDataSet.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0]);
+        lineDataSet.setDrawValues(false);
 
-        LineDataSet set1 = new LineDataSet(entries, "DataSet 1");
-        set1.setAxisDependency(YAxis.AxisDependency.LEFT);
-        set1.setColor(ColorTemplate.getHoloBlue());
-        set1.setCircleColor(Color.WHITE);
-        set1.setLineWidth(2f);
-        set1.setCircleRadius(3f);
-        set1.setFillAlpha(65);
-        set1.setFillColor(ColorTemplate.getHoloBlue());
-        set1.setHighLightColor(Color.rgb(244, 117, 117));
-        set1.setDrawCircleHole(false);
+        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        dataSets.add(lineDataSet); // add the datasets
 
-        LineData data = new LineData(set1);
-        data.setValueTextColor(Color.WHITE);
-        data.setValueTextSize(9f);
+        // create a data object with the datasets
+        LineData data = new LineData(dataSets);
 
+        // set data
         lchSale.setData(data);
+        lchSale.animateX(750);
 
     }
 

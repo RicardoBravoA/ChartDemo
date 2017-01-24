@@ -5,4 +5,5 @@
     <string name="sale_year">Ventas por año</string>
     <string name="sale_store_year">Ventas totales de Sucursal por año</string>
     <string name="title_activity_sale_by_store_and_year">SaleByStoreAndYearActivity</string>
+    <string name="title_activity_store_sale">StoreSale</string>
 </resources>
