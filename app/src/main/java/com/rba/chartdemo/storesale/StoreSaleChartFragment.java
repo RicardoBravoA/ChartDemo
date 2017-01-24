@@ -24,13 +24,8 @@ import com.rba.chartdemo.R;
 import com.rba.chartdemo.base.BaseFragment;
 import com.rba.chartdemo.model.response.StoreResponse;
 import com.rba.chartdemo.model.response.StoreYearResponse;
-import com.rba.chartdemo.model.response.YearResponse;
-import com.rba.chartdemo.salestore.SaleStoreYearInteractor;
-import com.rba.chartdemo.salestore.SaleStoreYearPresenter;
 import com.rba.chartdemo.service.store.StoreInteractor;
 import com.rba.chartdemo.service.store.StorePresenter;
-import com.rba.chartdemo.service.year.YearInteractor;
-import com.rba.chartdemo.service.year.YearPresenter;
 import com.rba.chartdemo.util.control.spinner.CustomSpinner;
 
 import java.util.ArrayList;
@@ -47,10 +42,10 @@ import butterknife.ButterKnife;
 public class StoreSaleChartFragment extends BaseFragment implements StoreSaleView,
         AdapterView.OnItemSelectedListener {
 
-    private SaleStoreYearPresenter saleStoreYearPresenter;
+    private StoreSalePresenter storeSalePresenter;
     private StorePresenter storePresenter;
     @Inject
-    SaleStoreYearInteractor saleStoreYearInteractor;
+    StoreSaleInteractor storeSaleInteractor;
     @Inject
     StoreInteractor storeInteractor;
     private StoreResponse storeResponse;
@@ -84,9 +79,10 @@ public class StoreSaleChartFragment extends BaseFragment implements StoreSaleVie
     @Override
     public void init() {
         spStore.setOnItemSelectedListener(this);
-        saleStoreYearPresenter = new SaleStoreYearPresenter(saleStoreYearInteractor, this);
-        yearPresenter = new YearPresenter(yearInteractor, this);
-        yearPresenter.loadYear();
+
+        storeSalePresenter = new StoreSalePresenter(storeSaleInteractor, this);
+        storePresenter = new StorePresenter(storeInteractor, this);
+        storePresenter.loadYear();
 
 
         pchSaleStore.setUsePercentValues(false);
@@ -114,13 +110,13 @@ public class StoreSaleChartFragment extends BaseFragment implements StoreSaleVie
 
     @Override
     public void showStore(StoreResponse storeResponse) {
-        Log.i("z- showYear", new Gson().toJson(yearResponse));
-        this.yearResponse = yearResponse;
+        Log.i("z- showYear", new Gson().toJson(storeResponse));
+        this.storeResponse = storeResponse;
 
-        spYear.setDataSource(yearResponse.getData());
+        spStore.setDataSource(storeResponse.getData());
 
-        saleStoreYearPresenter.load(
-                yearResponse.getData().get(spYear.getSelectedIndex()).getYear_sale());
+        storeSalePresenter.load(
+                storeResponse.getData().get(spStore.getSelectedIndex()).getStore_id());
     }
 
     @Override
@@ -169,9 +165,9 @@ public class StoreSaleChartFragment extends BaseFragment implements StoreSaleVie
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        Log.i("z- onItemSelected", String.valueOf(yearResponse.getData().get(i).getYear_sale()));
+        Log.i("z- onItemSelected", String.valueOf(storeResponse.getData().get(i).getStore_id()));
 
-        saleStoreYearPresenter.load(yearResponse.getData().get(i).getYear_sale());
+        storeSalePresenter.load(storeResponse.getData().get(i).getStore_id());
 
     }
 

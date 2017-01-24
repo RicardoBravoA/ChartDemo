@@ -2,7 +2,7 @@ package com.rba.chartdemo.storesale;
 
 import com.rba.chartdemo.api.NetworkError;
 import com.rba.chartdemo.model.response.ErrorResponse;
-import com.rba.chartdemo.model.response.SaleByStoreAndYearResponse;
+import com.rba.chartdemo.model.response.StoreYearResponse;
 
 /**
  * Created by Ricardo Bravo on 24/01/17.
@@ -10,7 +10,7 @@ import com.rba.chartdemo.model.response.SaleByStoreAndYearResponse;
 
 public interface StoreSaleCallback {
 
-    void onResponse(SaleByStoreAndYearResponse storeYearResponse);
+    void onResponse(StoreYearResponse storeYearResponse);
 
     void onError(ErrorResponse errorResponse);
 

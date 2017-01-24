@@ -7,8 +7,7 @@ import com.rba.chartdemo.api.ApiService;
 import com.rba.chartdemo.api.ErrorUtil;
 import com.rba.chartdemo.api.NetworkError;
 import com.rba.chartdemo.model.response.ErrorResponse;
-import com.rba.chartdemo.model.response.SaleByStoreAndYearResponse;
-import com.rba.chartdemo.salebystoreandyear.SaleByStoreAndYearCallback;
+import com.rba.chartdemo.model.response.StoreYearResponse;
 
 import retrofit2.Response;
 import retrofit2.adapter.rxjava.HttpException;
@@ -31,17 +30,17 @@ public class StoreSaleInteractor {
         this.apiService = apiService;
     }
 
-    public Subscription getSaleStoreYear(final StoreSaleCallback callback){
+    public Subscription getSaleStoreYear(int storeId, final StoreSaleCallback callback){
 
-        return  apiService.getSaleByStoreYear()
+        return  apiService.getStoreYear(storeId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .onErrorResumeNext(new Func1<Throwable, Observable<? extends SaleByStoreAndYearResponse>>() {
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends StoreYearResponse>>() {
                     @Override
-                    public Observable<? extends SaleByStoreAndYearResponse> call(Throwable throwable) {
+                    public Observable<? extends StoreYearResponse> call(Throwable throwable) {
                         return Observable.error(throwable);
                     }
-                }).subscribe(new Subscriber<SaleByStoreAndYearResponse>() {
+                }).subscribe(new Subscriber<StoreYearResponse>() {
                     @Override
                     public void onCompleted() {
 
@@ -60,9 +59,9 @@ public class StoreSaleInteractor {
                     }
 
                     @Override
-                    public void onNext(SaleByStoreAndYearResponse saleByStoreAndYearResponse) {
-                        Log.i("z- onNext", new Gson().toJson(saleByStoreAndYearResponse));
-                        callback.onResponse(saleByStoreAndYearResponse);
+                    public void onNext(StoreYearResponse storeYearResponse) {
+                        Log.i("z- onNext", new Gson().toJson(storeYearResponse));
+                        callback.onResponse(storeYearResponse);
                     }
                 });
 
