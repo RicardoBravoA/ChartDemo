@@ -1,4 +1,4 @@
-package com.rba.chartdemo.list;
+package com.rba.chartdemo.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,12 +18,12 @@ import com.rba.chartdemo.salestore.SaleStoreYearActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListActivity extends AppCompatActivity implements ListView {
+public class MainActivity extends AppCompatActivity implements MainView {
 
     private RecyclerView rcvList;
-    private ListAdapter listAdapter;
+    private MainAdapter mainAdapter;
     private List<DataEntity> dataEntityList;
-    private ListPresenter listPresenter;
+    private MainPresenter mainPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +46,12 @@ public class ListActivity extends AppCompatActivity implements ListView {
         rcvList.setItemAnimator(new DefaultItemAnimator());
 
         dataEntityList = new ArrayList<>();
-        listPresenter = new ListPresenter(this);
+        mainPresenter = new MainPresenter(this);
 
-        listAdapter = new ListAdapter(this, listPresenter);
-        rcvList.setAdapter(listAdapter);
+        mainAdapter = new MainAdapter(this, mainPresenter);
+        rcvList.setAdapter(mainAdapter);
 
-        listPresenter.loadData();
+        mainPresenter.loadData();
 
     }
 
@@ -73,7 +73,7 @@ public class ListActivity extends AppCompatActivity implements ListView {
     @Override
     public void showData(List<DataEntity> list) {
         dataEntityList.addAll(list);
-        listAdapter.load(dataEntityList);
-        listAdapter.notifyDataSetChanged();
+        mainAdapter.load(dataEntityList);
+        mainAdapter.notifyDataSetChanged();
     }
 }

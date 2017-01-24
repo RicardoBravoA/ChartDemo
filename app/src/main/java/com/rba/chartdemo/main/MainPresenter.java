@@ -1,4 +1,4 @@
-package com.rba.chartdemo.list;
+package com.rba.chartdemo.main;
 
 import com.rba.chartdemo.model.entity.DataEntity;
 
@@ -9,9 +9,9 @@ import java.util.List;
  * Created by ricardobravo on 13/12/16.
  */
 
-public class ListPresenter {
+public class MainPresenter {
 
-    private ListView listView;
+    private MainView mainView;
 
     public void loadData(){
 
@@ -19,16 +19,16 @@ public class ListPresenter {
         dataEntityList.add(new DataEntity(1, "Ventas de Sucursal por año"));
         dataEntityList.add(new DataEntity(2, "Ventas totales de Sucursal por año"));
 
-        listView.showData(dataEntityList);
+        mainView.showData(dataEntityList);
 
     }
 
-    public ListPresenter(ListView listView){
-        this.listView = listView;
+    public MainPresenter(MainView mainView){
+        this.mainView = mainView;
     }
 
     public void onClickCardView(DataEntity dataEntity){
-        listView.onClickItem(dataEntity);
+        mainView.onClickItem(dataEntity);
     }
 
 }

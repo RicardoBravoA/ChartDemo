@@ -1,4 +1,4 @@
-package com.rba.chartdemo.list;
+package com.rba.chartdemo.main;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
@@ -18,16 +18,16 @@ import java.util.List;
  * Created by ricardobravo on 13/12/16.
  */
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
+public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     private List<DataEntity> dataEntityList;
     static LayoutInflater inflater = null;
     private Context context;
-    private ListPresenter listPresenter;
+    private MainPresenter mainPresenter;
 
-    public ListAdapter(Context context, ListPresenter listPresenter){
+    public MainAdapter(Context context, MainPresenter mainPresenter){
         this.context = context;
-        this.listPresenter = listPresenter;
+        this.mainPresenter = mainPresenter;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         dataEntityList = new ArrayList<>();
     }
@@ -69,7 +69,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         @Override
         public void onClick(View view) {
             if(view.getId() == R.id.cvList){
-                listPresenter.onClickCardView(dataEntityList.get(getAdapterPosition()));
+                mainPresenter.onClickCardView(dataEntityList.get(getAdapterPosition()));
             }
         }
     }

@@ -233,7 +233,7 @@ public class CustomSpinner extends TextView {
     }
 
 // --Commented out by Inspection START (4/08/16 3:55 PM):
-//    public void setAdapter(@NonNull ListAdapter adapter) {
+//    public void setAdapter(@NonNull MainAdapter adapter) {
 //        this.adapter = new CustomSpinnerAdapterWrapper(getContext(), adapter, textColor, backgroundSelector);
 //        setAdapterInternal(this.adapter);
 //    }
