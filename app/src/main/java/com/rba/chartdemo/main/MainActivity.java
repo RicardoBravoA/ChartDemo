@@ -14,6 +14,7 @@ import com.rba.chartdemo.R;
 import com.rba.chartdemo.model.entity.DataEntity;
 import com.rba.chartdemo.salebystoreandyear.SaleByStoreAndYearActivity;
 import com.rba.chartdemo.salestore.SaleStoreYearActivity;
+import com.rba.chartdemo.storesale.StoreSaleActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 break;
             case 2:
                 startActivity(new Intent(this, SaleByStoreAndYearActivity.class));
+            case 3:
+                startActivity(new Intent(this, StoreSaleActivity.class));
                 break;
             default:
                 break;
