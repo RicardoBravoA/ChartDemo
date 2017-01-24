@@ -5,6 +5,7 @@ import com.rba.chartdemo.salebystoreandyear.SaleByStoreAndYearActivity;
 import com.rba.chartdemo.salestore.ChartFragment;
 import com.rba.chartdemo.salestore.LineFragment;
 import com.rba.chartdemo.salestore.SaleStoreYearActivity;
+import com.rba.chartdemo.storesale.StoreSaleChartFragment;
 
 import javax.inject.Singleton;
 
@@ -20,6 +21,8 @@ public interface ChartComponent {
 
     void injectSaleStoreYear(ChartFragment chartFragment);
     void injectSaleStoreYear(LineFragment lineFragment);
+
+    void injectStoreSale(StoreSaleChartFragment storeSaleChartFragment);
 
     void injectSaleByStoreAndYear(SaleByStoreAndYearActivity saleByStoreAndYearActivity);
 

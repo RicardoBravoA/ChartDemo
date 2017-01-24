@@ -65,6 +65,7 @@ public class StoreSaleChartFragment extends BaseFragment implements StoreSaleVie
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getChartComponent().injectStoreSale(this);
         View view = inflater.inflate(R.layout.fragment_store_sale_chart, container, false);
         ButterKnife.bind(this, view);
         return view;

@@ -3,7 +3,9 @@ package com.rba.chartdemo.api;
 import com.rba.chartdemo.BuildConfig;
 import com.rba.chartdemo.salebystoreandyear.SaleByStoreAndYearInteractor;
 import com.rba.chartdemo.salestore.SaleStoreYearInteractor;
+import com.rba.chartdemo.service.store.StoreInteractor;
 import com.rba.chartdemo.service.year.YearInteractor;
+import com.rba.chartdemo.storesale.StoreSaleInteractor;
 
 import java.util.concurrent.TimeUnit;
 
@@ -70,8 +72,20 @@ public class NetworkModule {
 
     @Provides
     @Singleton
+    public StoreInteractor store(ApiService apiService) {
+        return new StoreInteractor(apiService);
+    }
+
+    @Provides
+    @Singleton
     public SaleStoreYearInteractor saleStoreYear(ApiService apiService) {
         return new SaleStoreYearInteractor(apiService);
+    }
+
+    @Provides
+    @Singleton
+    public StoreSaleInteractor storeSale(ApiService apiService) {
+        return new StoreSaleInteractor(apiService);
     }
 
     @Provides
