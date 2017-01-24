@@ -29,7 +29,7 @@
             android:label="@string/title_activity_sale_by_store_and_year"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".storesale.StoreSale"
+            android:name=".storesale.StoreSaleActivity"
             android:label="@string/title_activity_store_sale"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

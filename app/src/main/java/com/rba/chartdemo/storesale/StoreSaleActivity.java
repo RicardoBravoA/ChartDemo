@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
  * Created by Ricardo Bravo on 24/01/17.
  */
 
-public class StoreSale extends BaseActivity {
+public class StoreSaleActivity extends BaseActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.tabLayout) TabLayout tabLayout;
@@ -60,7 +60,7 @@ public class StoreSale extends BaseActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new ChartFragment(), "Chart");
+        adapter.addFragment(new StoreSaleChartFragment(), "Chart");
         adapter.addFragment(new LineFragment(), "Line");
         viewPager.setAdapter(adapter);
     }
