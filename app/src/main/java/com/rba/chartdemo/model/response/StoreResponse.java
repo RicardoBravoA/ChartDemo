@@ -42,5 +42,11 @@ public class StoreResponse {
         public void setStore_description(String store_description) {
             this.store_description = store_description;
         }
+
+
+        @Override
+        public String toString() {
+            return store_description;
+        }
     }
 }

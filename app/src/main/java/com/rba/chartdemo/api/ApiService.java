@@ -22,6 +22,9 @@ public interface ApiService {
     @GET(BuildConfig.URL_STORE)
     Observable<StoreResponse> getStore();
 
+    @GET(BuildConfig.URL_STORE_ID_YEAR)
+    Observable<StoreYearResponse> getStoreIdYear(@Path("id") int id);
+
     @GET(BuildConfig.URL_STORE_YEAR)
     Observable<StoreYearResponse> getStoreYear(@Path("id") int id);
 

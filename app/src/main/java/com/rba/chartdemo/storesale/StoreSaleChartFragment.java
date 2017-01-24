@@ -52,7 +52,7 @@ public class StoreSaleChartFragment extends BaseFragment implements StoreSaleVie
 
     @BindView(R.id.linGeneral) LinearLayout linGeneral;
     @BindView(R.id.spStore) CustomSpinner spStore;
-    @BindView(R.id.pchSaleStore) PieChart pchSaleStore;
+    @BindView(R.id.pchStoreSale) PieChart pchStoreSale;
 
     public StoreSaleChartFragment() {
     }
@@ -86,26 +86,26 @@ public class StoreSaleChartFragment extends BaseFragment implements StoreSaleVie
         storePresenter.loadYear();
 
 
-        pchSaleStore.setUsePercentValues(false);
-        pchSaleStore.getDescription().setEnabled(false);
-        pchSaleStore.setExtraOffsets(5, 10, 5, 5);
+        pchStoreSale.setUsePercentValues(false);
+        pchStoreSale.getDescription().setEnabled(false);
+        pchStoreSale.setExtraOffsets(5, 10, 5, 5);
 
-        pchSaleStore.setDragDecelerationFrictionCoef(0.95f);
+        pchStoreSale.setDragDecelerationFrictionCoef(0.95f);
 
-        pchSaleStore.setDrawHoleEnabled(true);
-        pchSaleStore.setHoleColor(Color.WHITE);
+        pchStoreSale.setDrawHoleEnabled(true);
+        pchStoreSale.setHoleColor(Color.WHITE);
 
-        pchSaleStore.setTransparentCircleColor(Color.WHITE);
-        pchSaleStore.setTransparentCircleAlpha(110);
+        pchStoreSale.setTransparentCircleColor(Color.WHITE);
+        pchStoreSale.setTransparentCircleAlpha(110);
 
-        pchSaleStore.setHoleRadius(40f);
-        pchSaleStore.setTransparentCircleRadius(45f);
+        pchStoreSale.setHoleRadius(40f);
+        pchStoreSale.setTransparentCircleRadius(45f);
 
-        pchSaleStore.setDrawCenterText(true);
+        pchStoreSale.setDrawCenterText(true);
 
-        pchSaleStore.setRotationAngle(0);
-        pchSaleStore.setRotationEnabled(true);
-        pchSaleStore.setHighlightPerTapEnabled(true);
+        pchStoreSale.setRotationAngle(0);
+        pchStoreSale.setRotationEnabled(true);
+        pchStoreSale.setHighlightPerTapEnabled(true);
 
     }
 
@@ -153,14 +153,14 @@ public class StoreSaleChartFragment extends BaseFragment implements StoreSaleVie
         data.setValueFormatter(new PercentFormatter());
         data.setValueTextSize(11f);
         data.setValueTextColor(Color.WHITE);
-        pchSaleStore.setData(data);
+        pchStoreSale.setData(data);
 
-        pchSaleStore.animateY(1400, Easing.EasingOption.EaseInOutQuad);
+        pchStoreSale.animateY(1400, Easing.EasingOption.EaseInOutQuad);
 
-        pchSaleStore.setEntryLabelColor(ContextCompat.getColor(getActivity(), R.color.plumb));
-        pchSaleStore.setEntryLabelTextSize(12f);
+        pchStoreSale.setEntryLabelColor(ContextCompat.getColor(getActivity(), R.color.plumb));
+        pchStoreSale.setEntryLabelTextSize(12f);
 
-        pchSaleStore.invalidate();
+        pchStoreSale.invalidate();
 
     }
 

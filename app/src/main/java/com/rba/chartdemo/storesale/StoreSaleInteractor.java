@@ -32,7 +32,7 @@ public class StoreSaleInteractor {
 
     public Subscription getSaleStoreYear(int storeId, final StoreSaleCallback callback){
 
-        return  apiService.getStoreYear(storeId)
+        return  apiService.getStoreIdYear(storeId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends StoreYearResponse>>() {
