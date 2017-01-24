@@ -15,18 +15,16 @@ import com.rba.chartdemo.R;
  * Created by Ricardo Bravo on 24/01/17.
  */
 
-public class MyMarkerView extends MarkerView {
+public class ToolTip extends MarkerView {
 
-    private TextView tvContent;
+    private TextView lblMarker;
 
-    public MyMarkerView(Context context, int layoutResource) {
+    public ToolTip(Context context, int layoutResource) {
         super(context, layoutResource);
 
-        tvContent = (TextView) findViewById(R.id.tvContent);
+        lblMarker = (TextView) findViewById(R.id.lblMarker);
     }
 
-    // callbacks everytime the MarkerView is redrawn, can be used to update the
-    // content (user-interface)
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
 
@@ -34,11 +32,13 @@ public class MyMarkerView extends MarkerView {
 
             CandleEntry ce = (CandleEntry) e;
 
-            tvContent.setText("" + Utils.formatNumber(ce.getHigh(), 0, true));
+            lblMarker.setText("" + Utils.formatNumber(ce.getHigh(), 0, true));
         } else {
 
-            tvContent.setText("" + Utils.formatNumber(e.getY(), 0, true));
+            lblMarker.setText("" + Utils.formatNumber(e.getY(), 0, true));
         }
+
+        //lblMarker.setText(e.getData().toString());
 
         super.refreshContent(e, highlight);
     }
@@ -47,5 +47,6 @@ public class MyMarkerView extends MarkerView {
     public MPPointF getOffset() {
         return new MPPointF(-(getWidth() / 2), -getHeight());
     }
+
 }
 

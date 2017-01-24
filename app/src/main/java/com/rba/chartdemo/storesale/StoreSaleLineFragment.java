@@ -22,6 +22,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
 import com.rba.chartdemo.R;
 import com.rba.chartdemo.base.BaseFragment;
+import com.rba.chartdemo.component.ToolTip;
 import com.rba.chartdemo.model.response.StoreResponse;
 import com.rba.chartdemo.model.response.StoreYearResponse;
 import com.rba.chartdemo.service.store.StoreInteractor;
@@ -88,6 +89,10 @@ public class StoreSaleLineFragment extends BaseFragment implements StoreSaleView
         lchSale.getDescription().setEnabled(false);
         lchSale.setDrawGridBackground(false);
 
+        ToolTip mv = new ToolTip(getContext(), R.layout.tooltip);
+        mv.setChartView(lchSale);
+        lchSale.setMarker(mv);
+
         XAxis xAxis = lchSale.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
@@ -135,7 +140,10 @@ public class StoreSaleLineFragment extends BaseFragment implements StoreSaleView
         ArrayList<Entry> values = new ArrayList<Entry>();
 
         for(StoreYearResponse.DataBean dataBean : storeYearResponse.getData()){
-            values.add(new Entry(dataBean.getYear_sale(), Float.parseFloat(dataBean.getAmount())));
+            values.add(new Entry(dataBean.getYear_sale(), Float.parseFloat(dataBean.getAmount()),
+                    //String.valueOf(dataBean.getYear_sale()+"\n"+dataBean.getAmount())
+                    String.valueOf("hola")
+            ));
         }
 
         LineDataSet lineDataSet = new LineDataSet(values, "New DataSet (2)");
