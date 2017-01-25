@@ -10,4 +10,8 @@ public class Util {
         return String.format("%.2f", value);
     }
 
+    public static String format0Decimals(float value){
+        return String.format("%.0f", value);
+    }
+
 }

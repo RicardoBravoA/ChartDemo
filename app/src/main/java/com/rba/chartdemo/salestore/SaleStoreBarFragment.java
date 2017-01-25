@@ -1,6 +1,5 @@
 package com.rba.chartdemo.salestore;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -12,17 +11,14 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
 import com.rba.chartdemo.R;
@@ -31,6 +27,7 @@ import com.rba.chartdemo.model.response.StoreYearResponse;
 import com.rba.chartdemo.model.response.YearResponse;
 import com.rba.chartdemo.service.year.YearInteractor;
 import com.rba.chartdemo.service.year.YearPresenter;
+import com.rba.chartdemo.util.Util;
 import com.rba.chartdemo.util.control.spinner.CustomSpinner;
 
 import java.util.ArrayList;
@@ -52,6 +49,7 @@ public class SaleStoreBarFragment extends BaseFragment implements SaleStoreYearV
     @Inject SaleStoreYearInteractor saleStoreYearInteractor;
     @Inject YearInteractor yearInteractor;
     private YearResponse yearResponse;
+    private StoreYearResponse storeYearResponse;
 
     @BindView(R.id.linGeneral) LinearLayout linGeneral;
     @BindView(R.id.spYear) CustomSpinner spYear;
@@ -88,13 +86,43 @@ public class SaleStoreBarFragment extends BaseFragment implements SaleStoreYearV
         yearPresenter.loadYear();
 
 
+        bchSale.setDrawBarShadow(false);
+        bchSale.setDrawValueAboveBar(true);
         bchSale.getDescription().setEnabled(false);
+        bchSale.setMaxVisibleValueCount(60);
+        bchSale.setPinchZoom(false);
+
         bchSale.setDrawGridBackground(false);
+
 
         XAxis xAxis = bchSale.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
+        xAxis.setGranularity(1f); // only intervals of 1 day
+        xAxis.setLabelCount(4);
         xAxis.setDrawAxisLine(true);
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return storeYearResponse.getData().get(Integer.parseInt(Util.format0Decimals(value-1))).getStore_description();
+            }
+        });
+
+
+        XYMarkerView mv = new XYMarkerView(this, xAxisFormatter);
+        mv.setChartView(mChart);
+        mChart.setMarker(mv);
+
+
+        bchSale.getDescription().setEnabled(false);
+        bchSale.setDrawGridBackground(false);
+
+        /*
+        XAxis xAxis = bchSale.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setDrawAxisLine(true);
+        */
 
         YAxis leftAxis = bchSale.getAxisLeft();
         leftAxis.setLabelCount(5, false);
@@ -133,6 +161,7 @@ public class SaleStoreBarFragment extends BaseFragment implements SaleStoreYearV
     @Override
     public void showStoreYear(StoreYearResponse storeYearResponse) {
 
+        this.storeYearResponse = storeYearResponse;
         Log.i("z- showStoreYear", new Gson().toJson(storeYearResponse));
 
         /*
@@ -168,11 +197,18 @@ public class SaleStoreBarFragment extends BaseFragment implements SaleStoreYearV
 
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
 
+        for(StoreYearResponse.DataBean dataBean : storeYearResponse.getData()){
+            yVals1.add(new BarEntry(dataBean.getStore_id(), Float.parseFloat(dataBean.getAmount()), dataBean.getStore_description()));
+        }
+
+
+        /*
         for (int i = (int) start; i < start + 5 + 1; i++) {
             float mult = (10 + 1);
             float val = (float) (Math.random() * mult);
             yVals1.add(new BarEntry(i, val));
         }
+        */
 
         BarDataSet set1;
 
