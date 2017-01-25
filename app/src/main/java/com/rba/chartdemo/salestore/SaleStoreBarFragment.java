@@ -23,6 +23,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
 import com.rba.chartdemo.R;
 import com.rba.chartdemo.base.BaseFragment;
+import com.rba.chartdemo.component.ToolTipBarChart;
 import com.rba.chartdemo.model.response.StoreYearResponse;
 import com.rba.chartdemo.model.response.YearResponse;
 import com.rba.chartdemo.service.year.YearInteractor;
@@ -107,11 +108,6 @@ public class SaleStoreBarFragment extends BaseFragment implements SaleStoreYearV
                 return storeYearResponse.getData().get(Integer.parseInt(Util.format0Decimals(value-1))).getStore_description();
             }
         });
-
-
-        XYMarkerView mv = new XYMarkerView(this, xAxisFormatter);
-        mv.setChartView(mChart);
-        mChart.setMarker(mv);
 
 
         bchSale.getDescription().setEnabled(false);
@@ -231,6 +227,10 @@ public class SaleStoreBarFragment extends BaseFragment implements SaleStoreYearV
 
             bchSale.setData(data);
         }
+
+        ToolTipBarChart mv = new ToolTipBarChart(getContext(), storeYearResponse);
+        mv.setChartView(bchSale);
+        bchSale.setMarker(mv);
 
 
 

@@ -5,12 +5,11 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.rba.chartdemo.R;
-
-import java.text.DecimalFormat;
+import com.rba.chartdemo.model.response.StoreYearResponse;
+import com.rba.chartdemo.util.Util;
 
 /**
  * Created by Ricardo Bravo on 25/01/17.
@@ -18,26 +17,19 @@ import java.text.DecimalFormat;
 
 public class ToolTipBarChart extends MarkerView {
 
-    private TextView tvContent;
-    private IAxisValueFormatter xAxisValueFormatter;
+    private TextView lblMarker;
+    private StoreYearResponse storeYearResponse;
 
-    private DecimalFormat format;
-
-    public ToolTipBarChart(Context context, IAxisValueFormatter xAxisValueFormatter) {
+    public ToolTipBarChart(Context context, StoreYearResponse storeYearResponse) {
         super(context, R.layout.tooltip_bar_chart);
+        this.storeYearResponse = storeYearResponse;
 
-        this.xAxisValueFormatter = xAxisValueFormatter;
-        tvContent = (TextView) findViewById(R.id.lblMarker);
-        format = new DecimalFormat("###.0");
+        lblMarker = (TextView) findViewById(R.id.lblMarker);
     }
 
-    // callbacks everytime the MarkerView is redrawn, can be used to update the
-    // content (user-interface)
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-
-        tvContent.setText("x: " + xAxisValueFormatter.getFormattedValue(e.getX(), null) + ", y: " + format.format(e.getY()));
-
+        lblMarker.setText(storeYearResponse.getData().get(Integer.parseInt(Util.format0Decimals(e.getX()-1))).getStore_description()+" \n "+ Util.format0Decimals(e.getY()));
         super.refreshContent(e, highlight);
     }
 
