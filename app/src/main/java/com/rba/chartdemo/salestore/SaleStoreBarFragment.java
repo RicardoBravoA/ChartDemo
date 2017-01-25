@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -154,39 +155,32 @@ public class SaleStoreBarFragment extends BaseFragment implements SaleStoreYearV
         Log.i("z- showStoreYear", new Gson().toJson(storeYearResponse));
 
 
-        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+        ArrayList<BarEntry> yVals1 = new ArrayList<>();
 
         for(StoreYearResponse.DataBean dataBean : storeYearResponse.getData()){
             yVals1.add(new BarEntry(dataBean.getStore_id(), Float.parseFloat(dataBean.getAmount()), dataBean.getStore_description()));
         }
 
+        BarDataSet set1 = new BarDataSet(yVals1, getString(R.string.sale_year_variable,
+                String.valueOf(yearResponse.getData().get(spYear.getSelectedIndex()).getYear_sale())));
 
-        BarDataSet set1;
+        set1.setColors(ColorTemplate.MATERIAL_COLORS);
 
-        if (bchSale.getData() != null &&
-                bchSale.getData().getDataSetCount() > 0) {
-            set1 = (BarDataSet) bchSale.getData().getDataSetByIndex(0);
-            set1.setValues(yVals1);
-            bchSale.getData().notifyDataChanged();
-            bchSale.notifyDataSetChanged();
-        } else {
-            set1 = new BarDataSet(yVals1, getString(R.string.sale_year_variable, String.valueOf(yearResponse.getData().get(spYear.getSelectedIndex()).getYear_sale())));
-            set1.setColors(ColorTemplate.MATERIAL_COLORS);
+        ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+        dataSets.add(set1);
 
-            ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
-            dataSets.add(set1);
+        BarData data = new BarData(dataSets);
+        data.setValueTextSize(10f);
+        data.setBarWidth(0.9f);
 
-            BarData data = new BarData(dataSets);
-            data.setValueTextSize(10f);
-            data.setBarWidth(0.9f);
-
-            bchSale.setData(data);
-        }
+        bchSale.setData(data);
 
         ToolTipBarChart mv = new ToolTipBarChart(getContext(), storeYearResponse);
         mv.setChartView(bchSale);
         bchSale.setMarker(mv);
+        bchSale.animateY(1000, Easing.EasingOption.EaseInOutQuad);
 
+        bchSale.invalidate();
 
 
     }
