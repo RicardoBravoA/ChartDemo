@@ -113,13 +113,6 @@ public class SaleStoreBarFragment extends BaseFragment implements SaleStoreYearV
         bchSale.getDescription().setEnabled(false);
         bchSale.setDrawGridBackground(false);
 
-        /*
-        XAxis xAxis = bchSale.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setDrawGridLines(false);
-        xAxis.setDrawAxisLine(true);
-        */
-
         YAxis leftAxis = bchSale.getAxisLeft();
         leftAxis.setLabelCount(5, false);
         leftAxis.setAxisMinimum(0f);
@@ -160,36 +153,6 @@ public class SaleStoreBarFragment extends BaseFragment implements SaleStoreYearV
         this.storeYearResponse = storeYearResponse;
         Log.i("z- showStoreYear", new Gson().toJson(storeYearResponse));
 
-        /*
-        ArrayList<Entry> values = new ArrayList<Entry>();
-
-
-        //StoreYearResponse.DataBean dataBean =
-
-        for (int i = 0; i < 20; i++) {
-            values.add(new Entry(i, (int) (Math.random() * 65) + 40));
-        }
-
-        LineDataSet lineDataSet = new LineDataSet(values, "New DataSet (2)");
-        lineDataSet.setLineWidth(2.5f);
-        lineDataSet.setCircleRadius(4.5f);
-        lineDataSet.setHighLightColor(Color.rgb(244, 117, 117));
-        lineDataSet.setColor(ColorTemplate.VORDIPLOM_COLORS[0]);
-        lineDataSet.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0]);
-        lineDataSet.setDrawValues(false);
-
-        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-        dataSets.add(lineDataSet); // add the datasets
-
-        // create a data object with the datasets
-        LineData data = new LineData(dataSets);
-
-        // set data
-        bchSale.setData(data);
-        bchSale.animateX(750);
-        */
-
-        float start = 1f;
 
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
 
@@ -197,14 +160,6 @@ public class SaleStoreBarFragment extends BaseFragment implements SaleStoreYearV
             yVals1.add(new BarEntry(dataBean.getStore_id(), Float.parseFloat(dataBean.getAmount()), dataBean.getStore_description()));
         }
 
-
-        /*
-        for (int i = (int) start; i < start + 5 + 1; i++) {
-            float mult = (10 + 1);
-            float val = (float) (Math.random() * mult);
-            yVals1.add(new BarEntry(i, val));
-        }
-        */
 
         BarDataSet set1;
 
@@ -215,7 +170,7 @@ public class SaleStoreBarFragment extends BaseFragment implements SaleStoreYearV
             bchSale.getData().notifyDataChanged();
             bchSale.notifyDataSetChanged();
         } else {
-            set1 = new BarDataSet(yVals1, "The year 2017");
+            set1 = new BarDataSet(yVals1, getString(R.string.sale_year_variable, String.valueOf(yearResponse.getData().get(spYear.getSelectedIndex()).getYear_sale())));
             set1.setColors(ColorTemplate.MATERIAL_COLORS);
 
             ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
