@@ -18,6 +18,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.google.gson.Gson;
 import com.rba.chartdemo.R;
 import com.rba.chartdemo.base.BaseFragment;
+import com.rba.chartdemo.model.response.BranchStoreResponse;
 import com.rba.chartdemo.model.response.StoreResponse;
 import com.rba.chartdemo.model.response.StoreYearResponse;
 import com.rba.chartdemo.salestore.SaleStoreYearInteractor;
@@ -39,9 +40,9 @@ import butterknife.ButterKnife;
 public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment implements SaleStoreBranchOfficeView,
         AdapterView.OnItemSelectedListener {
 
-    private SaleStoreYearPresenter saleStoreYearPresenter;
+    private SaleStoreBranchOfficePresenter saleStoreBranchOfficePresenter;
     private StorePresenter storePresenter;
-    @Inject SaleStoreYearInteractor saleStoreYearInteractor;
+    @Inject SaleStoreBranchOfficeInteractor saleStoreBranchOfficeInteractor;
     @Inject StoreInteractor storeInteractor;
     private StoreResponse storeResponse;
     private StoreYearResponse storeYearResponse;
@@ -62,6 +63,7 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment impleme
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getChartComponent().injectSaleStoreBranchOffice(this);
         View view =  inflater.inflate(R.layout.fragment_branch_office_bar, container, false);
         ButterKnife.bind(this, view);
         return view;
@@ -76,7 +78,7 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment impleme
     @Override
     public void init() {
         spStore.setOnItemSelectedListener(this);
-        //saleStoreYearPresenter = new SaleStoreYearPresenter(saleStoreYearInteractor, this);
+        saleStoreBranchOfficePresenter = new SaleStoreBranchOfficePresenter(saleStoreBranchOfficeInteractor, this);
         storePresenter = new StorePresenter(storeInteractor, this);
         storePresenter.loadStoreBranch();
 
@@ -127,7 +129,7 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment impleme
         spStore.setDataSource(storeResponse.getData());
 
         /*
-        saleStoreYearPresenter.load(
+        saleStoreBranchOfficePresenter.load(
                 yearResponse.getData().get(spYear.getSelectedIndex()).getYear_sale());
         */
     }
@@ -144,7 +146,7 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment impleme
     }
 
     @Override
-    public void showStoreYear(StoreYearResponse storeYearResponse) {
+    public void showBranchStore(BranchStoreResponse branchStoreResponse) {
 
         /*
         this.storeYearResponse = storeYearResponse;
