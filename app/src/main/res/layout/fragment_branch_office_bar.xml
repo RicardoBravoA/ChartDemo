@@ -16,7 +16,7 @@
         android:layout_marginBottom="10dp">
 
         <com.rba.chartdemo.util.control.spinner.CustomSpinner
-            android:id="@+id/spStore"
+            android:id="@+id/spYear"
             android:layout_width="match_parent"
             app:textColor="@android:color/black"
             android:layout_height="wrap_content"

@@ -14,4 +14,8 @@ public class Util {
         return String.format("%.0f", value);
     }
 
+    public static int format0DecimalsInt(float value){
+        return Integer.parseInt(format0Decimals(value));
+    }
+
 }

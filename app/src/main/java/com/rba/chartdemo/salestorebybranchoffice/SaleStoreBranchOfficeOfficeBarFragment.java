@@ -10,23 +10,30 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.LargeValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
 import com.rba.chartdemo.R;
 import com.rba.chartdemo.base.BaseFragment;
 import com.rba.chartdemo.model.response.BranchStoreResponse;
-import com.rba.chartdemo.model.response.StoreResponse;
-import com.rba.chartdemo.model.response.StoreYearResponse;
-import com.rba.chartdemo.salestore.SaleStoreYearInteractor;
-import com.rba.chartdemo.salestore.SaleStoreYearPresenter;
-import com.rba.chartdemo.service.store.StoreInteractor;
-import com.rba.chartdemo.service.store.StorePresenter;
+import com.rba.chartdemo.model.response.YearResponse;
+import com.rba.chartdemo.service.year.YearInteractor;
+import com.rba.chartdemo.service.year.YearPresenter;
 import com.rba.chartdemo.util.Util;
 import com.rba.chartdemo.util.control.spinner.CustomSpinner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -41,16 +48,16 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment impleme
         AdapterView.OnItemSelectedListener {
 
     private SaleStoreBranchOfficePresenter saleStoreBranchOfficePresenter;
-    private StorePresenter storePresenter;
+    private YearPresenter yearPresenter;
     @Inject SaleStoreBranchOfficeInteractor saleStoreBranchOfficeInteractor;
-    @Inject StoreInteractor storeInteractor;
-    private StoreResponse storeResponse;
-    private StoreYearResponse storeYearResponse;
+    @Inject YearInteractor yearInteractor;
+    private YearResponse yearResponse;
+    private BranchStoreResponse branchStoreResponse;
 
     @BindView(R.id.linGeneral) LinearLayout linGeneral;
-    @BindView(R.id.spStore) CustomSpinner spStore;
-    @BindView(R.id.bchSale)
-    BarChart bchSale;
+    @BindView(R.id.spYear) CustomSpinner spYear;
+    @BindView(R.id.bchSale) BarChart bchSale;
+    private List<String> storeList;
 
     public SaleStoreBranchOfficeOfficeBarFragment() {
     }
@@ -77,11 +84,11 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment impleme
 
     @Override
     public void init() {
-        spStore.setOnItemSelectedListener(this);
+        spYear.setOnItemSelectedListener(this);
         saleStoreBranchOfficePresenter = new SaleStoreBranchOfficePresenter(saleStoreBranchOfficeInteractor, this);
-        storePresenter = new StorePresenter(storeInteractor, this);
-        storePresenter.loadStoreBranch();
-
+        yearPresenter = new YearPresenter(yearInteractor, this);
+        yearPresenter.loadYearBranch();
+        storeList = new ArrayList<>();
 
         bchSale.setDrawBarShadow(false);
         bchSale.setDrawValueAboveBar(true);
@@ -96,12 +103,27 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment impleme
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f); // only intervals of 1 day
-        xAxis.setLabelCount(4);
+        xAxis.setLabelCount(5);
         xAxis.setDrawAxisLine(true);
+
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                return storeYearResponse.getData().get(Integer.parseInt(Util.format0Decimals(value-1))).getStore_description();
+
+                if(Util.format0DecimalsInt(value) < storeList.size()){
+                    return String.valueOf(storeList.get(Util.format0DecimalsInt(value)));
+                }else{
+                    return "";
+                }
+
+
+                /*
+                //return String.valueOf(storeList.get(Util.format0DecimalsInt(value-1)));
+                Log.i("z- format "+value, String.valueOf(storeList.get(Util.format0DecimalsInt(value))));
+                Log.i("z- value", ""+value);
+                //return String.valueOf(branchStoreResponse.getData().get(Util.format0DecimalsInt(value)).getYear());
+                return "hola";
+                */
             }
         });
 
@@ -122,21 +144,19 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment impleme
     }
 
     @Override
-    public void showStore(StoreResponse storeResponse) {
-        Log.i("z- showStore", new Gson().toJson(storeResponse));
-        this.storeResponse = storeResponse;
+    public void showYear(YearResponse yearResponse) {
+        Log.i("z- showYear", new Gson().toJson(yearResponse));
+        this.yearResponse = yearResponse;
 
-        spStore.setDataSource(storeResponse.getData());
+        spYear.setDataSource(yearResponse.getData());
 
-        /*
         saleStoreBranchOfficePresenter.load(
                 yearResponse.getData().get(spYear.getSelectedIndex()).getYear_sale());
-        */
     }
 
     @Override
-    public void showErrorStore(String message) {
-        Log.i("z- showErrorStore", message);
+    public void showErrorYear(String message) {
+        Log.i("z- showErrorYear", message);
     }
 
     @Override
@@ -148,47 +168,76 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment impleme
     @Override
     public void showBranchStore(BranchStoreResponse branchStoreResponse) {
 
-        /*
-        this.storeYearResponse = storeYearResponse;
-        Log.i("z- showStoreYear", new Gson().toJson(storeYearResponse));
+        this.branchStoreResponse = branchStoreResponse;
+
+        float groupSpace = 0.08f;
+        float barSpace = 0.02f;
+        float barWidth = 0.1f;
+
+        int groupCount = branchStoreResponse.getData().size()-1;
+        int startYear = 0;
+
+        Log.i("z- showStoreYear", new Gson().toJson(branchStoreResponse));
+
+        List<ArrayList<BarEntry>> data = new ArrayList<>();
+
+        Log.i("z- branchStoreResponse", ""+branchStoreResponse.getData().size());
+
+        for(int i = 0; i < branchStoreResponse.getData().size(); i++){
+
+            Log.i("z- year for "+i, String.valueOf(branchStoreResponse.getData().get(i).getYear()));
+            storeList.add(String.valueOf(branchStoreResponse.getData().get(i).getBranch().get(i).getStore_description()));
+
+            ArrayList<BarEntry> value = new ArrayList<>();
 
 
-        ArrayList<BarEntry> yVals1 = new ArrayList<>();
+            for(BranchStoreResponse.DataBean.BranchBean branchBean : branchStoreResponse.getData().get(i).getBranch()){
+                Log.i("z- data for", ""+i+" - "+new Gson().toJson(branchBean));
+                value.add(new BarEntry(branchBean.getStore_id(), Float.parseFloat(branchBean.getAmount()), branchBean.getStore_description()));
+            }
+            data.add(value);
 
-        for(StoreYearResponse.DataBean dataBean : storeYearResponse.getData()){
-            yVals1.add(new BarEntry(dataBean.getStore_id(), Float.parseFloat(dataBean.getAmount()), dataBean.getStore_description()));
         }
 
-        BarDataSet set1 = new BarDataSet(yVals1, getString(R.string.sale_year_variable,
-                String.valueOf(yearResponse.getData().get(spYear.getSelectedIndex()).getYear_sale())));
+        Log.i("z- yearList", ""+storeList.size());
+        Log.i("z- yearList", new Gson().toJson(storeList));
 
-        set1.setColors(ColorTemplate.MATERIAL_COLORS);
+        List<IBarDataSet> barDataSetList = new ArrayList<>();
 
-        ArrayList<IBarDataSet> dataSets = new ArrayList<>();
-        dataSets.add(set1);
+        for(int i = 0; i < storeList.size(); i++){
+            Log.i("z- year "+i, ""+storeList.get(i));
+            Log.i("z- array "+i, new Gson().toJson(data.get(i))+" - "+storeList.get(i));
+            BarDataSet barDataSet = new BarDataSet(data.get(i), storeList.get(i));
+            barDataSet.setColor(ColorTemplate.MATERIAL_COLORS[i]);
+            barDataSetList.add(barDataSet);
+        }
 
-        BarData data = new BarData(dataSets);
-        data.setValueTextSize(10f);
-        data.setBarWidth(0.9f);
+        BarData barData = new BarData(barDataSetList);
+        barData.setValueFormatter(new LargeValueFormatter());
 
-        bchSale.setData(data);
+        bchSale.setData(barData);
 
-        ToolTipBarChart mv = new ToolTipBarChart(getContext(), storeYearResponse);
-        mv.setChartView(bchSale);
-        bchSale.setMarker(mv);
+
+        bchSale.getBarData().setBarWidth(barWidth);
+
+        bchSale.getXAxis().setAxisMinimum(startYear);
+
+        bchSale.getXAxis().setAxisMaximum(startYear + bchSale.getBarData().getGroupWidth(groupSpace, barSpace) * groupCount);
+        bchSale.groupBars(startYear, groupSpace, barSpace);
+
+
         bchSale.animateY(1000, Easing.EasingOption.EaseInOutQuad);
 
         bchSale.invalidate();
-        */
 
 
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        Log.i("z- onItemSelected", String.valueOf(storeResponse.getData().get(i).getStore_id()));
+        Log.i("z- onItemSelected", String.valueOf(yearResponse.getData().get(i).getYear_sale()));
 
-        //saleStoreYearPresenter.load(yearResponse.getData().get(i).getYear_sale());
+        saleStoreBranchOfficePresenter.load(yearResponse.getData().get(i).getYear_sale());
 
     }
 
@@ -196,5 +245,6 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment impleme
     public void onNothingSelected(AdapterView<?> adapterView) {
         Log.i("z- onNothingSelected", "true");
     }
+
 
 }

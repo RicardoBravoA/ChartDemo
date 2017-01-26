@@ -30,7 +30,7 @@ public interface ApiService {
     Observable<StoreYearResponse> getStoreYear(@Path("id") int id);
 
     @GET(BuildConfig.URL_BRANCH_STORE_ID)
-    Observable<BranchStoreResponse> getBranchStoreYear(@Path("id") int id);
+    Observable<BranchStoreResponse> getBranchStoreYear();
 
     @GET(BuildConfig.URL_SALE_STORE_YEAR)
     Observable<SaleByStoreAndYearResponse> getSaleByStoreYear();

@@ -8,6 +8,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.rba.chartdemo.R;
+import com.rba.chartdemo.model.response.BranchStoreResponse;
 import com.rba.chartdemo.model.response.StoreYearResponse;
 import com.rba.chartdemo.util.Util;
 
@@ -18,7 +19,8 @@ import com.rba.chartdemo.util.Util;
 public class ToolTipBarChart extends MarkerView {
 
     private TextView lblMarker;
-    private StoreYearResponse storeYearResponse;
+    private StoreYearResponse storeYearResponse = null;
+    private BranchStoreResponse branchStoreResponse = null;
 
     public ToolTipBarChart(Context context, StoreYearResponse storeYearResponse) {
         super(context, R.layout.tooltip_bar_chart);
@@ -27,9 +29,22 @@ public class ToolTipBarChart extends MarkerView {
         lblMarker = (TextView) findViewById(R.id.lblMarker);
     }
 
+    public ToolTipBarChart(Context context, BranchStoreResponse branchStoreResponse) {
+        super(context, R.layout.tooltip_bar_chart);
+        this.branchStoreResponse = branchStoreResponse;
+
+        lblMarker = (TextView) findViewById(R.id.lblMarker);
+    }
+
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-        lblMarker.setText(storeYearResponse.getData().get(Integer.parseInt(Util.format0Decimals(e.getX()-1))).getStore_description()+" \n "+ Util.format0Decimals(e.getY()));
+
+        if(storeYearResponse != null){
+            lblMarker.setText(storeYearResponse.getData().get(Util.format0DecimalsInt(e.getX()-1)).getStore_description()+" \n "+ Util.format0Decimals(e.getY()));
+        }else if(branchStoreResponse != null){
+            lblMarker.setText(branchStoreResponse.getData().get(Util.format0DecimalsInt(e.getX()-1)).getBranch().get(Util.format0DecimalsInt(e.getX()-1))+" \n "+ Util.format0Decimals(e.getY()));
+        }
+
         super.refreshContent(e, highlight);
     }
 

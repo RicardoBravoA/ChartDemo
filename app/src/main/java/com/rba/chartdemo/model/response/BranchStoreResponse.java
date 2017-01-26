@@ -21,7 +21,7 @@ public class BranchStoreResponse {
     public static class DataBean {
         /**
          * year : 2013
-         * branch : [{"store_id":1,"store_description":"Tienda 1","branch_id":1,"branch_description":"Sucursal 1","year_sale":2013,"amount":"120800"},{"store_id":1,"store_description":"Tienda 1","branch_id":2,"branch_description":"Sucursal 2","year_sale":2013,"amount":"139400"},{"store_id":1,"store_description":"Tienda 1","branch_id":3,"branch_description":"Sucursal 3","year_sale":2013,"amount":"112000"},{"store_id":1,"store_description":"Tienda 1","branch_id":4,"branch_description":"Sucursal 4","year_sale":2013,"amount":"130000"},{"store_id":1,"store_description":"Tienda 1","branch_id":5,"branch_description":"Sucursal 5","year_sale":2013,"amount":"52800"}]
+         * branch : [{"store_id":1,"store_description":"Tienda 1","year_sale":2013,"amount":"555000"},{"store_id":2,"store_description":"Tienda 2","year_sale":2013,"amount":"218500"},{"store_id":3,"store_description":"Tienda 3","year_sale":2013,"amount":"278200"},{"store_id":4,"store_description":"Tienda 4","year_sale":2013,"amount":"259200"}]
          */
 
         private int year;
@@ -47,16 +47,12 @@ public class BranchStoreResponse {
             /**
              * store_id : 1
              * store_description : Tienda 1
-             * branch_id : 1
-             * branch_description : Sucursal 1
              * year_sale : 2013
-             * amount : 120800
+             * amount : 555000
              */
 
             private int store_id;
             private String store_description;
-            private int branch_id;
-            private String branch_description;
             private int year_sale;
             private String amount;
 
@@ -74,22 +70,6 @@ public class BranchStoreResponse {
 
             public void setStore_description(String store_description) {
                 this.store_description = store_description;
-            }
-
-            public int getBranch_id() {
-                return branch_id;
-            }
-
-            public void setBranch_id(int branch_id) {
-                this.branch_id = branch_id;
-            }
-
-            public String getBranch_description() {
-                return branch_description;
-            }
-
-            public void setBranch_description(String branch_description) {
-                this.branch_description = branch_description;
             }
 
             public int getYear_sale() {

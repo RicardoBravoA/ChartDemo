@@ -33,7 +33,7 @@ public class SaleStoreBranchOfficeInteractor {
     public Subscription getSaleStoreBranchOffice(int id,
                                                  final SaleStoreBranchOfficeCallback saleStoreBranchOfficeCallback){
 
-        return  apiService.getBranchStoreYear(id)
+        return  apiService.getBranchStoreYear()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends BranchStoreResponse>>() {

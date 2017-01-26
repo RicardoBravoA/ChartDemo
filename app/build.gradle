@@ -24,7 +24,7 @@ android {
 
             buildConfigField "String", "URL_STORE_YEAR", '"store/year/{id}"'
             buildConfigField "String", "URL_STORE_ID_YEAR", '"store/{id}/year"'
-            buildConfigField "String", "URL_BRANCH_STORE_ID", '"store/{id}/branch/"'
+            buildConfigField "String", "URL_BRANCH_STORE_ID", '"store/branch/"'
             buildConfigField "String", "URL_YEAR", '"year/"'
             buildConfigField "String", "URL_STORE", '"store/"'
             buildConfigField "String", "URL_SALE_STORE_YEAR", '"store/year/"'
