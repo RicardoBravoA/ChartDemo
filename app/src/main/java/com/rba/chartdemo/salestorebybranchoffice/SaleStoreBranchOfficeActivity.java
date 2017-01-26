@@ -1,4 +1,4 @@
-package com.rba.chartdemo.combined.branchoffice;
+package com.rba.chartdemo.salestorebybranchoffice;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -19,7 +19,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BranchOfficeActivity extends BaseActivity {
+public class SaleStoreBranchOfficeActivity extends BaseActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.tabLayout)
@@ -29,7 +29,7 @@ public class BranchOfficeActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_branch_office);
+        setContentView(R.layout.activity_sale_branch_office);
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
@@ -55,7 +55,7 @@ public class BranchOfficeActivity extends BaseActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new BranchOfficeChartFragment(), "Bar Chart");
+        adapter.addFragment(new SaleStoreBranchOfficeBarFragment(), "Bar Chart");
         viewPager.setAdapter(adapter);
     }
 

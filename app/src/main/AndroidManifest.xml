@@ -33,7 +33,7 @@
             android:label="@string/title_activity_store_sale"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".combined.branchoffice.BranchOfficeActivity"
+            android:name=".salestorebybranchoffice.SaleStoreBranchOfficeActivity"
             android:label="@string/title_activity_branch_office"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
