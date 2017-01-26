@@ -16,9 +16,10 @@ public class MainPresenter {
     public void loadData(){
 
         List<DataEntity> dataEntityList = new ArrayList<>();
-        dataEntityList.add(new DataEntity(1, "Ventas de Sucursal por año"));
-        dataEntityList.add(new DataEntity(2, "Ventas totales de Sucursal por año"));
-        dataEntityList.add(new DataEntity(3, "Ventas anuales por Sucursal"));
+        dataEntityList.add(new DataEntity(1, "Ventas de Tienda por año"));
+        dataEntityList.add(new DataEntity(2, "Ventas totales de Tienda por año"));
+        dataEntityList.add(new DataEntity(3, "Ventas anuales por Tienda"));
+        dataEntityList.add(new DataEntity(4, "Ventas de Sucursales por Año y Tienda"));
 
         mainView.showData(dataEntityList);
 

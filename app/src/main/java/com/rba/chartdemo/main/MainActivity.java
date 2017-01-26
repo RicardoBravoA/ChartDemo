@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.rba.chartdemo.R;
+import com.rba.chartdemo.combined.branchoffice.BranchOfficeActivity;
 import com.rba.chartdemo.model.entity.DataEntity;
 import com.rba.chartdemo.salebystoreandyear.SaleByStoreAndYearActivity;
 import com.rba.chartdemo.salestore.SaleStoreYearActivity;
@@ -65,8 +66,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 break;
             case 2:
                 startActivity(new Intent(this, SaleByStoreAndYearActivity.class));
+                break;
             case 3:
                 startActivity(new Intent(this, StoreSaleActivity.class));
+                break;
+            case 4:
+                startActivity(new Intent(this, BranchOfficeActivity.class));
                 break;
             default:
                 break;

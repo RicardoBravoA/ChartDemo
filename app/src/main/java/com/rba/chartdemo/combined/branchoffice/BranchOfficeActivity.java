@@ -12,7 +12,6 @@ import android.view.View;
 
 import com.rba.chartdemo.R;
 import com.rba.chartdemo.base.BaseActivity;
-import com.rba.chartdemo.salestore.SaleStoreBarFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +55,7 @@ public class BranchOfficeActivity extends BaseActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new SaleStoreBarFragment(), "Bar Chart");
+        adapter.addFragment(new BranchOfficeChartFragment(), "Bar Chart");
         viewPager.setAdapter(adapter);
     }
 
