@@ -8,7 +8,7 @@ import com.rba.chartdemo.model.response.ErrorResponse;
  * Created by Ricardo Bravo on 26/01/17.
  */
 
-public interface SaleStoreBranchCallback {
+public interface SaleStoreBranchOfficeCallback {
 
     void onResponse(BranchStoreResponse branchStoreResponse);
 
