@@ -7,4 +7,5 @@
     <string name="title_activity_sale_by_store_and_year">SaleByStoreAndYearActivity</string>
     <string name="title_activity_store_sale">StoreSale</string>
     <string name="sale_year_variable">Sales of %1$s</string>
+    <string name="title_activity_branch_office">BranchOfficeActivity</string>
 </resources>
