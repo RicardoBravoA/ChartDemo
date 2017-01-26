@@ -36,7 +36,7 @@ import butterknife.ButterKnife;
  * Created by Ricardo Bravo on 26/01/17.
  */
 
-public class SaleStoreBranchOfficeBarFragment extends BaseFragment implements SaleStoreBranchView,
+public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment implements SaleStoreBranchOfficeView,
         AdapterView.OnItemSelectedListener {
 
     private SaleStoreYearPresenter saleStoreYearPresenter;
@@ -51,7 +51,7 @@ public class SaleStoreBranchOfficeBarFragment extends BaseFragment implements Sa
     @BindView(R.id.bchSale)
     BarChart bchSale;
 
-    public SaleStoreBranchOfficeBarFragment() {
+    public SaleStoreBranchOfficeOfficeBarFragment() {
     }
 
     @Override

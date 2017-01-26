@@ -3,7 +3,7 @@ package com.rba.chartdemo.service.store;
 import com.rba.chartdemo.api.NetworkError;
 import com.rba.chartdemo.model.response.ErrorResponse;
 import com.rba.chartdemo.model.response.StoreResponse;
-import com.rba.chartdemo.salestorebybranchoffice.SaleStoreBranchView;
+import com.rba.chartdemo.salestorebybranchoffice.SaleStoreBranchOfficeView;
 import com.rba.chartdemo.storesale.StoreSaleView;
 
 import rx.Subscription;
@@ -16,7 +16,7 @@ import rx.subscriptions.CompositeSubscription;
 public class StorePresenter {
 
     private StoreInteractor storeInteractor;
-    private SaleStoreBranchView saleStoreBranchView;
+    private SaleStoreBranchOfficeView saleStoreBranchOfficeView;
     private StoreSaleView storeSaleView;
     private CompositeSubscription subscription;
 
@@ -25,9 +25,9 @@ public class StorePresenter {
         this.storeSaleView = storeSaleView;
     }
 
-    public StorePresenter(StoreInteractor storeInteractor, SaleStoreBranchView saleStoreBranchView){
+    public StorePresenter(StoreInteractor storeInteractor, SaleStoreBranchOfficeView saleStoreBranchOfficeView){
         this.storeInteractor = storeInteractor;
-        this.saleStoreBranchView = saleStoreBranchView;
+        this.saleStoreBranchOfficeView = saleStoreBranchOfficeView;
     }
 
     public void loadStore() {
@@ -60,17 +60,17 @@ public class StorePresenter {
         Subscription subscription = storeInteractor.getStore(new StoreCallback() {
             @Override
             public void onStoreResponse(StoreResponse storeResponse) {
-                saleStoreBranchView.showStore(storeResponse);
+                saleStoreBranchOfficeView.showStore(storeResponse);
             }
 
             @Override
             public void onStoreError(ErrorResponse errorResponse) {
-                saleStoreBranchView.showErrorStore(errorResponse.get_meta().getStatus());
+                saleStoreBranchOfficeView.showErrorStore(errorResponse.get_meta().getStatus());
             }
 
             @Override
             public void onStoreFailure(NetworkError networkError) {
-                saleStoreBranchView.showErrorStore(networkError.getMessage());
+                saleStoreBranchOfficeView.showErrorStore(networkError.getMessage());
             }
         });
 

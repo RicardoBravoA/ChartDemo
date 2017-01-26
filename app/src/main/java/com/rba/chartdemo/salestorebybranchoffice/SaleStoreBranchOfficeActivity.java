@@ -55,7 +55,7 @@ public class SaleStoreBranchOfficeActivity extends BaseActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new SaleStoreBranchOfficeBarFragment(), "Bar Chart");
+        adapter.addFragment(new SaleStoreBranchOfficeOfficeBarFragment(), "Bar Chart");
         viewPager.setAdapter(adapter);
     }
 
