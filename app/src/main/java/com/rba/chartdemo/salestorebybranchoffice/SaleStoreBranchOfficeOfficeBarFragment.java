@@ -57,6 +57,7 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment impleme
     @BindView(R.id.linGeneral) LinearLayout linGeneral;
     @BindView(R.id.spYear) CustomSpinner spYear;
     @BindView(R.id.bchSale) BarChart bchSale;
+    private List<String> yearList;
     private List<String> storeList;
 
     public SaleStoreBranchOfficeOfficeBarFragment() {
@@ -88,6 +89,7 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment impleme
         saleStoreBranchOfficePresenter = new SaleStoreBranchOfficePresenter(saleStoreBranchOfficeInteractor, this);
         yearPresenter = new YearPresenter(yearInteractor, this);
         yearPresenter.loadYearBranch();
+        yearList = new ArrayList<>();
         storeList = new ArrayList<>();
 
         bchSale.setDrawBarShadow(false);
@@ -103,30 +105,30 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment impleme
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f); // only intervals of 1 day
-        xAxis.setLabelCount(5);
+        xAxis.setLabelCount(4);
         xAxis.setDrawAxisLine(true);
 
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
 
-                if(Util.format0DecimalsInt(value) < storeList.size()){
-                    return String.valueOf(storeList.get(Util.format0DecimalsInt(value)));
+                /*
+                Log.i("x- axis", "value: "+value
+                        +" - min: "+axis.getAxisMaximum()+" - max: "+axis.getAxisMaximum()
+                        +" - label: "+axis.getLabelCount()+" - limit"+axis.getLimitLines());
+                */
+
+                Log.i("x- size", ""+yearList.size());
+
+                if(Util.format0DecimalsInt(value) < yearList.size()){
+                    Log.i("x- value", ""+value);
+                    Log.i("x- valueList", ""+yearList.get(Util.format0DecimalsInt(value)));
+                    return String.valueOf(yearList.get(Util.format0DecimalsInt(value)));
                 }else{
                     return "";
                 }
-
-
-                /*
-                //return String.valueOf(storeList.get(Util.format0DecimalsInt(value-1)));
-                Log.i("z- format "+value, String.valueOf(storeList.get(Util.format0DecimalsInt(value))));
-                Log.i("z- value", ""+value);
-                //return String.valueOf(branchStoreResponse.getData().get(Util.format0DecimalsInt(value)).getYear());
-                return "hola";
-                */
             }
         });
-
 
         bchSale.getDescription().setEnabled(false);
         bchSale.setDrawGridBackground(false);
@@ -174,10 +176,11 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment impleme
         float barSpace = 0.02f;
         float barWidth = 0.1f;
 
-        int groupCount = branchStoreResponse.getData().size()-1;
-        int startYear = 0;
+        int groupCount = branchStoreResponse.getData().size();
 
         Log.i("z- showStoreYear", new Gson().toJson(branchStoreResponse));
+
+        Log.i("z- groupCount", ""+groupCount);
 
         List<ArrayList<BarEntry>> data = new ArrayList<>();
 
@@ -186,6 +189,7 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment impleme
         for(int i = 0; i < branchStoreResponse.getData().size(); i++){
 
             Log.i("z- year for "+i, String.valueOf(branchStoreResponse.getData().get(i).getYear()));
+            yearList.add(String.valueOf(branchStoreResponse.getData().get(i).getYear()));
             storeList.add(String.valueOf(branchStoreResponse.getData().get(i).getBranch().get(i).getStore_description()));
 
             ArrayList<BarEntry> value = new ArrayList<>();
@@ -199,8 +203,8 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment impleme
 
         }
 
-        Log.i("z- yearList", ""+storeList.size());
-        Log.i("z- yearList", new Gson().toJson(storeList));
+        Log.i("z- yearList", ""+yearList.size());
+        Log.i("z- yearList", new Gson().toJson(yearList));
 
         List<IBarDataSet> barDataSetList = new ArrayList<>();
 
@@ -220,11 +224,11 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment impleme
 
         bchSale.getBarData().setBarWidth(barWidth);
 
-        bchSale.getXAxis().setAxisMinimum(startYear);
+        bchSale.getXAxis().setAxisMinimum(0);
 
-        bchSale.getXAxis().setAxisMaximum(startYear + bchSale.getBarData().getGroupWidth(groupSpace, barSpace) * groupCount);
-        bchSale.groupBars(startYear, groupSpace, barSpace);
+        bchSale.getXAxis().setAxisMaximum(bchSale.getBarData().getGroupWidth(groupSpace, barSpace) * groupCount);
 
+        bchSale.groupBars(0, groupSpace, barSpace);
 
         bchSale.animateY(1000, Easing.EasingOption.EaseInOutQuad);
 
