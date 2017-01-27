@@ -4,7 +4,7 @@ import com.rba.chartdemo.api.NetworkModule;
 import com.rba.chartdemo.salebystoreandyear.SaleByStoreAndYearActivity;
 import com.rba.chartdemo.salestore.SaleStoreChartFragment;
 import com.rba.chartdemo.salestore.SaleStoreBarFragment;
-import com.rba.chartdemo.salestorebybranchoffice.SaleStoreBranchOfficeOfficeBarFragment;
+import com.rba.chartdemo.salestoreyear.SaleStoreYearBarFragment;
 import com.rba.chartdemo.storesale.StoreSaleChartFragment;
 import com.rba.chartdemo.storesale.StoreSaleLineFragment;
 
@@ -27,6 +27,6 @@ public interface ChartComponent {
     void injectStoreSale(StoreSaleLineFragment storeSaleLineFragment);
 
     void injectSaleByStoreAndYear(SaleByStoreAndYearActivity saleByStoreAndYearActivity);
-    void injectSaleStoreBranchOffice(SaleStoreBranchOfficeOfficeBarFragment saleStoreBranchOfficeOfficeBarFragment);
+    void injectSaleStoreBranchOffice(SaleStoreYearBarFragment saleStoreYearBarFragment);
 
 }

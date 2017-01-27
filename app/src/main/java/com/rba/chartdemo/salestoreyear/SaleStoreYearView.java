@@ -1,4 +1,4 @@
-package com.rba.chartdemo.salestorebybranchoffice;
+package com.rba.chartdemo.salestoreyear;
 
 import com.rba.chartdemo.model.response.BranchStoreResponse;
 
@@ -6,7 +6,7 @@ import com.rba.chartdemo.model.response.BranchStoreResponse;
  * Created by ricardobravo on 13/12/16.
  */
 
-public interface SaleStoreBranchOfficeView {
+public interface SaleStoreYearView {
 
     void init();
 

@@ -2,8 +2,7 @@ package com.rba.chartdemo.api;
 
 import com.rba.chartdemo.BuildConfig;
 import com.rba.chartdemo.salebystoreandyear.SaleByStoreAndYearInteractor;
-import com.rba.chartdemo.salestore.SaleStoreYearInteractor;
-import com.rba.chartdemo.salestorebybranchoffice.SaleStoreBranchOfficeInteractor;
+import com.rba.chartdemo.salestoreyear.SaleStoreYearInteractor;
 import com.rba.chartdemo.service.store.StoreInteractor;
 import com.rba.chartdemo.service.year.YearInteractor;
 import com.rba.chartdemo.storesale.StoreSaleInteractor;
@@ -79,8 +78,8 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    public SaleStoreYearInteractor saleStoreYear(ApiService apiService) {
-        return new SaleStoreYearInteractor(apiService);
+    public com.rba.chartdemo.salestore.SaleStoreYearInteractor saleStoreYear(ApiService apiService) {
+        return new com.rba.chartdemo.salestore.SaleStoreYearInteractor(apiService);
     }
 
     @Provides
@@ -97,8 +96,8 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    public SaleStoreBranchOfficeInteractor saleStoreBranchOfficeInteractor(ApiService apiService) {
-        return new SaleStoreBranchOfficeInteractor(apiService);
+    public SaleStoreYearInteractor saleStoreBranchOfficeInteractor(ApiService apiService) {
+        return new SaleStoreYearInteractor(apiService);
     }
 
     /*

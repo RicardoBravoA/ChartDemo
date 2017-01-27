@@ -11,10 +11,9 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.rba.chartdemo.R;
-import com.rba.chartdemo.salestorebybranchoffice.SaleStoreBranchOfficeActivity;
+import com.rba.chartdemo.salestoreyear.SaleStoreYearActivity;
 import com.rba.chartdemo.model.entity.DataEntity;
 import com.rba.chartdemo.salebystoreandyear.SaleByStoreAndYearActivity;
-import com.rba.chartdemo.salestore.SaleStoreYearActivity;
 import com.rba.chartdemo.storesale.StoreSaleActivity;
 
 import java.util.ArrayList;
@@ -62,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         Log.i("z- onClickItem", new Gson().toJson(dataEntity));
         switch (dataEntity.getId()){
             case 1:
-                startActivity(new Intent(this, SaleStoreYearActivity.class));
+                startActivity(new Intent(this, com.rba.chartdemo.salestore.SaleStoreYearActivity.class));
                 break;
             case 2:
                 startActivity(new Intent(this, SaleByStoreAndYearActivity.class));
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 startActivity(new Intent(this, StoreSaleActivity.class));
                 break;
             case 4:
-                startActivity(new Intent(this, SaleStoreBranchOfficeActivity.class));
+                startActivity(new Intent(this, SaleStoreYearActivity.class));
                 break;
             default:
                 break;

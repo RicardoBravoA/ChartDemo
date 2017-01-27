@@ -1,4 +1,4 @@
-package com.rba.chartdemo.salestorebybranchoffice;
+package com.rba.chartdemo.salestoreyear;
 
 import android.util.Log;
 
@@ -22,15 +22,15 @@ import rx.schedulers.Schedulers;
  * Created by Ricardo Bravo on 26/01/17.
  */
 
-public class SaleStoreBranchOfficeInteractor {
+public class SaleStoreYearInteractor {
 
     private ApiService apiService;
 
-    public SaleStoreBranchOfficeInteractor(ApiService apiService) {
+    public SaleStoreYearInteractor(ApiService apiService) {
         this.apiService = apiService;
     }
 
-    public Subscription getSaleStoreBranchOffice(final SaleStoreBranchOfficeCallback saleStoreBranchOfficeCallback){
+    public Subscription getSaleStoreBranchOffice(final SaleStoreYearCallback saleStoreYearCallback){
 
         return  apiService.getBranchStoreYear()
                 .subscribeOn(Schedulers.io())
@@ -52,16 +52,16 @@ public class SaleStoreBranchOfficeInteractor {
                             HttpException exception = (HttpException) e;
                             Response response = exception.response();
                             ErrorResponse errorResponse = ErrorUtil.parseError(response);
-                            saleStoreBranchOfficeCallback.onError(errorResponse);
+                            saleStoreYearCallback.onError(errorResponse);
                         } else {
-                            saleStoreBranchOfficeCallback.onFailure(new NetworkError(e));
+                            saleStoreYearCallback.onFailure(new NetworkError(e));
                         }
                     }
 
                     @Override
                     public void onNext(BranchStoreResponse branchStoreResponse) {
                         Log.i("z- onNext", new Gson().toJson(branchStoreResponse));
-                        saleStoreBranchOfficeCallback.onResponse(branchStoreResponse);
+                        saleStoreYearCallback.onResponse(branchStoreResponse);
                     }
                 });
 

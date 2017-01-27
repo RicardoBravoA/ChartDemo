@@ -1,4 +1,4 @@
-package com.rba.chartdemo.salestorebybranchoffice;
+package com.rba.chartdemo.salestoreyear;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -26,9 +25,6 @@ import com.google.gson.Gson;
 import com.rba.chartdemo.R;
 import com.rba.chartdemo.base.BaseFragment;
 import com.rba.chartdemo.model.response.BranchStoreResponse;
-import com.rba.chartdemo.model.response.YearResponse;
-import com.rba.chartdemo.service.year.YearInteractor;
-import com.rba.chartdemo.service.year.YearPresenter;
 import com.rba.chartdemo.util.Util;
 
 import java.util.ArrayList;
@@ -43,18 +39,19 @@ import butterknife.ButterKnife;
  * Created by Ricardo Bravo on 26/01/17.
  */
 
-public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment
-        implements SaleStoreBranchOfficeView{
+public class SaleStoreYearBarFragment extends BaseFragment
+        implements SaleStoreYearView {
 
-    private SaleStoreBranchOfficePresenter saleStoreBranchOfficePresenter;
-    @Inject SaleStoreBranchOfficeInteractor saleStoreBranchOfficeInteractor;
+    private SaleStoreYearPresenter saleStoreYearPresenter;
+    @Inject
+    SaleStoreYearInteractor saleStoreYearInteractor;
 
     @BindView(R.id.linGeneral) LinearLayout linGeneral;
     @BindView(R.id.bchSale) BarChart bchSale;
     private List<String> yearList;
     private List<String> storeList;
 
-    public SaleStoreBranchOfficeOfficeBarFragment() {
+    public SaleStoreYearBarFragment() {
     }
 
     @Override
@@ -79,7 +76,7 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment
 
     @Override
     public void init() {
-        saleStoreBranchOfficePresenter = new SaleStoreBranchOfficePresenter(saleStoreBranchOfficeInteractor, this);
+        saleStoreYearPresenter = new SaleStoreYearPresenter(saleStoreYearInteractor, this);
         yearList = new ArrayList<>();
         storeList = new ArrayList<>();
 
@@ -133,7 +130,7 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment
         rightAxis.setDrawGridLines(false);
         rightAxis.setAxisMinimum(0f);
 
-        saleStoreBranchOfficePresenter.load();
+        saleStoreYearPresenter.load();
 
     }
 
