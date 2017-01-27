@@ -30,7 +30,6 @@ import com.rba.chartdemo.model.response.YearResponse;
 import com.rba.chartdemo.service.year.YearInteractor;
 import com.rba.chartdemo.service.year.YearPresenter;
 import com.rba.chartdemo.util.Util;
-import com.rba.chartdemo.util.control.spinner.CustomSpinner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,18 +43,13 @@ import butterknife.ButterKnife;
  * Created by Ricardo Bravo on 26/01/17.
  */
 
-public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment implements SaleStoreBranchOfficeView,
-        AdapterView.OnItemSelectedListener {
+public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment
+        implements SaleStoreBranchOfficeView{
 
     private SaleStoreBranchOfficePresenter saleStoreBranchOfficePresenter;
-    private YearPresenter yearPresenter;
     @Inject SaleStoreBranchOfficeInteractor saleStoreBranchOfficeInteractor;
-    @Inject YearInteractor yearInteractor;
-    private YearResponse yearResponse;
-    private BranchStoreResponse branchStoreResponse;
 
     @BindView(R.id.linGeneral) LinearLayout linGeneral;
-    @BindView(R.id.spYear) CustomSpinner spYear;
     @BindView(R.id.bchSale) BarChart bchSale;
     private List<String> yearList;
     private List<String> storeList;
@@ -85,10 +79,7 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment impleme
 
     @Override
     public void init() {
-        spYear.setOnItemSelectedListener(this);
         saleStoreBranchOfficePresenter = new SaleStoreBranchOfficePresenter(saleStoreBranchOfficeInteractor, this);
-        yearPresenter = new YearPresenter(yearInteractor, this);
-        yearPresenter.loadYearBranch();
         yearList = new ArrayList<>();
         storeList = new ArrayList<>();
 
@@ -142,23 +133,8 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment impleme
         rightAxis.setDrawGridLines(false);
         rightAxis.setAxisMinimum(0f);
 
+        saleStoreBranchOfficePresenter.load();
 
-    }
-
-    @Override
-    public void showYear(YearResponse yearResponse) {
-        Log.i("z- showYear", new Gson().toJson(yearResponse));
-        this.yearResponse = yearResponse;
-
-        spYear.setDataSource(yearResponse.getData());
-
-        saleStoreBranchOfficePresenter.load(
-                yearResponse.getData().get(spYear.getSelectedIndex()).getYear_sale());
-    }
-
-    @Override
-    public void showErrorYear(String message) {
-        Log.i("z- showErrorYear", message);
     }
 
     @Override
@@ -169,8 +145,6 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment impleme
 
     @Override
     public void showBranchStore(BranchStoreResponse branchStoreResponse) {
-
-        this.branchStoreResponse = branchStoreResponse;
 
         float groupSpace = 0.08f;
         float barSpace = 0.02f;
@@ -235,19 +209,6 @@ public class SaleStoreBranchOfficeOfficeBarFragment extends BaseFragment impleme
         bchSale.invalidate();
 
 
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        Log.i("z- onItemSelected", String.valueOf(yearResponse.getData().get(i).getYear_sale()));
-
-        saleStoreBranchOfficePresenter.load(yearResponse.getData().get(i).getYear_sale());
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-        Log.i("z- onNothingSelected", "true");
     }
 
 

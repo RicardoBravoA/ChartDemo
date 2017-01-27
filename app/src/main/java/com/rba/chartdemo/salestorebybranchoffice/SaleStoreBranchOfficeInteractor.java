@@ -30,8 +30,7 @@ public class SaleStoreBranchOfficeInteractor {
         this.apiService = apiService;
     }
 
-    public Subscription getSaleStoreBranchOffice(int id,
-                                                 final SaleStoreBranchOfficeCallback saleStoreBranchOfficeCallback){
+    public Subscription getSaleStoreBranchOffice(final SaleStoreBranchOfficeCallback saleStoreBranchOfficeCallback){
 
         return  apiService.getBranchStoreYear()
                 .subscribeOn(Schedulers.io())

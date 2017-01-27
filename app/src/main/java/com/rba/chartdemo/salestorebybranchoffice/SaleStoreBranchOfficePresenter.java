@@ -23,10 +23,10 @@ public class SaleStoreBranchOfficePresenter {
         this.saleStoreBranchOfficeView = saleStoreBranchOfficeView;
     }
 
-    public void load(int id) {
+    public void load() {
         this.subscription = new CompositeSubscription();
 
-        Subscription subscription = saleStoreBranchOfficeInteractor.getSaleStoreBranchOffice(id, new SaleStoreBranchOfficeCallback() {
+        Subscription subscription = saleStoreBranchOfficeInteractor.getSaleStoreBranchOffice(new SaleStoreBranchOfficeCallback() {
             @Override
             public void onResponse(BranchStoreResponse branchStoreResponse) {
                 saleStoreBranchOfficeView.showBranchStore(branchStoreResponse);
